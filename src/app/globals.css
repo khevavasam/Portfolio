@@ -1,26 +1,321 @@
-@import "tailwindcss";
-
+@import "bootstrap-icons/font/bootstrap-icons.css";
+/* ===== TOKENS ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0b0f16;
+
+  /* accents */
+  --accent-1: #60a5fa;
+  /* blue */
+  --accent-2: #a78bfa;
+  /* violet */
+
+  /* glass */
+  --glass-bg: rgba(255, 255, 255, .05);
+  --glass-bg-strong: rgba(255, 255, 255, .08);
+  --glass-border: rgba(255, 255, 255, .12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===== BASE ===== */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+}
+
+/* градиентный текст */
+.text-gradient {
+  background: linear-gradient(90deg, #8be9ff, var(--accent-1) 45%, var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===== STARFIELD LAYER ===== */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ===== GLASS UI ===== */
+.glass {
+  background-color: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
+
+.glass-strong {
+  background-color: var(--glass-bg-strong) !important;
+}
+
+.card.glass,
+.card.glass .card-body {
+  background-color: transparent !important;
+}
+
+/* hover эффекты */
+.hover-lift {
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-glass:hover {
+  background-color: rgba(255, 255, 255, .09) !important;
+}
+
+/* вторичный текст на стекле — светлее */
+.glass .text-secondary {
+  color: rgba(230, 237, 243, .8) !important;
+}
+
+/* navbar glass: сделать бургер видимым */
+.navbar.glass .navbar-toggler {
+  border-color: rgba(255, 255, 255, .25);
+}
+
+.navbar.glass .navbar-toggler-icon {
+  filter: invert(1) opacity(.85);
+}
+
+/* ===== PROJECT CARDS (media on top) ===== */
+
+/* сброс для кнопки-обёртки */
+.btn-reset {
+  all: unset;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* медиаблок карточки: картинка заполняет блок полностью */
+.project-card .project-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* можно 4/3, 3/2, 21/9 */
+  overflow: hidden;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+}
+
+/* картинка — фулл-блид */
+.project-card .project-media-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.project-card:hover .project-media-img {
+  transform: scale(1.06);
+}
+
+/* бейджи поверх стекла читаемее так */
+.badge.text-bg-dark {
+  background-color: rgba(0, 0, 0, .55) !important;
+  color: rgba(255, 255, 255, .9) !important;
+}
+
+/* ===== MODAL (Projects) ===== */
+.modal-content.glass {
+  background-color: var(--glass-bg-strong) !important;
+  border: 1px solid var(--glass-border) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ===== OPTIONAL BLOBS (если захочешь вместе со звёздами) ===== */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  width: 55vw;
+  height: 55vw;
+  filter: blur(60px);
+  opacity: .6;
+  mix-blend-mode: screen;
+}
+
+.b1 {
+  left: -10vw;
+  top: -8vh;
+  background: radial-gradient(circle at 40% 40%, var(--accent-1), transparent 60%),
+    radial-gradient(circle at 70% 60%, var(--accent-2), transparent 55%);
+}
+
+.b2 {
+  right: -12vw;
+  top: 10vh;
+  width: 48vw;
+  height: 48vw;
+  background: radial-gradient(circle at 40% 50%, #34d399, transparent 55%),
+    radial-gradient(circle at 70% 40%, #22d3ee, transparent 55%);
+}
+
+.b3 {
+  left: 12vw;
+  bottom: -18vh;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle at 50% 50%, #f472b6, transparent 60%),
+    radial-gradient(circle at 80% 30%, #fb7185, transparent 55%);
+}
+
+/* большие круглые иконки для карточек Skills */
+.icon-bubble-lg {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
+
+.icon-bubble-lg i {
+  font-size: 1.6rem;
+  /* сама иконка крупнее */
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+}
+
+/* крупные “чипы”-бейджи */
+.chip-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .85rem;
+  font-size: 1rem;
+  /* больше шрифт */
+  line-height: 1;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, .06) !important;
+  border: 1px solid rgba(255, 255, 255, .16) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform .12s ease, background-color .15s ease;
+}
+
+.chip-lg:hover {
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, .10) !important;
+}
+
+/* подсветка заголовка градиентом — уже используешь, но на всяк */
+.text-gradient {
+  background: linear-gradient(90deg, #8be9ff, #60a5fa 45%, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* контейнер-аватар */
+.avatar-hero {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: rgba(255, 255, 255, .04);
+  /* лёгкое стекло */
+  border: 2px solid rgba(255, 255, 255, .35);
+  /* тонкое кольцо */
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, .35),
+    inset 0 0 30px rgba(255, 255, 255, .08);
+  overflow: hidden;
+}
+
+/* градиентная подсветка по краю */
+.avatar-hero::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  /* выходит чуть за край */
+  border-radius: 50%;
+  background: conic-gradient(#8be9ff, #60a5fa 45%, #a78bfa, #8be9ff);
+  filter: blur(12px);
+  opacity: .25;
+  z-index: -1;
+}
+
+/* сама иконка */
+.avatar-hero i {
+  font-size: 6.2rem;
+  /* подгон под 180px */
+  line-height: 1;
+  color: #e6edf3;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+}
+
+/* опц: на ховере чуть ярче */
+.avatar-hero:hover::after {
+  opacity: .35;
+}
+
+/* Темнее подложка под модалкой */
+.modal-backdrop {
+  background-color: #000 !important;
+}
+
+.modal-backdrop.show {
+  opacity: .78 !important;
+  /* можно 0.8–0.9, как комфортно */
+}
+
+/* Тёмная «глухая» модалка без стекла */
+.modal-content.modal-solid {
+  background: #0b0f16;
+  /* тот же базовый тёмный фон сайта */
+  border: 1px solid rgba(255, 255, 255, .08);
+  color: #e6edf3;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
+}
+
+/* чтобы секции не подсвечивали случайно другим фоном */
+.modal-content.modal-solid .modal-header,
+.modal-content.modal-solid .modal-body,
+.modal-content.modal-solid .modal-footer {
+  background: transparent !important;
+  color: inherit;
+  border-color: rgba(255, 255, 255, .08) !important;
+}
+
+/* кнопка закрытия видима на тёмном */
+.modal-content.modal-solid .btn-close {
+  filter: invert(1) opacity(.85);
+}
+
+/* карусель внутри — скругление и тёмная рамка, чтоб «держало» картинку */
+.modal-content.modal-solid .carousel-inner {
+  border-radius: .75rem;
+  border: 1px solid rgba(255, 255, 255, .06);
+  overflow: hidden;
+}
+
+/* текст в футере/боди чуть контрастнее */
+.modal-content.modal-solid p,
+.modal-content.modal-solid .text-secondary {
+  color: rgba(230, 237, 243, .9) !important;
 }

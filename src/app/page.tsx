@@ -1,65 +1,105 @@
-import Image from "next/image";
+import Starfield from "./components/Starfield"; // или ./components/StarfieldPro
+import BootstrapClient from "./components/BootstrapClient";
+import ProjectsGrid from "./components/ProjectsGrid";
+import Education from "./components/Education";
+import Skills from "./components/Skills";
+import { projects } from "@/data/projects";
 
-export default function Home() {
+
+export default function Page() {
+  const year = new Date().getFullYear();
+
+  const stats = [
+    { value: "2+", label: "years of experience" },
+    { value: "19+", label: "projects" },
+    { value: "100%", label: "quality" },
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      {/* интерактивный фон */}
+      <Starfield />
+      {/* инициализация Bootstrap JS (модалки/карусели/навигация) */}
+      <BootstrapClient />
+
+      {/* NAV (стекло) */}
+      <nav className="navbar navbar-expand-md sticky-top border-bottom border-1 border-secondary-subtle glass">
+        <div className="container">
+          <a className="navbar-brand fw-semibold" href="#">Khevavasam Artur</a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#nav"
+            aria-controls="nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div id="nav" className="collapse navbar-collapse">
+            <ul className="navbar-nav ms-auto align-items-md-center gap-md-2">
+              <li className="nav-item"><a className="nav-link" href="#projects">Projects</a></li>
+              <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
+            </ul>
+          </div>
         </div>
-      </main>
-    </div>
+      </nav>
+
+      {/* HERO */}
+      <header className="container py-5 text-center">
+
+        <div className="avatar-hero mx-auto" aria-label="Avatar">
+          <i className="bi bi-person-circle" aria-hidden="true" />
+        </div>
+
+
+        <h1 className="display-5 fw-bold mt-3 text-gradient">Khevavasam Artur</h1>
+        <p className="text-secondary mx-auto" style={{ maxWidth: "60ch" }}>
+          Frontend React Developer. Modern UX, clean architecture, measurable performance.
+        </p>
+
+        {/* STATS (стекло) */}
+        <div className="row g-3 g-md-4 mt-1">
+          {stats.map((s) => (
+            <div key={s.label} className="col-12 col-md-4">
+              <div className="card glass border-0 shadow-sm h-100 hover-glass">
+                <div className="card-body">
+                  <div className="fs-2 fw-bold">{s.value}</div>
+                  <div className="text-secondary small">{s.label}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </header>
+
+      {/* PROJECTS */}
+      <section id="projects" className="container py-5">
+        <h2 className="display-6 fw-bold text-center mb-2 text-gradient">Projects</h2>
+        <p className="lead text-secondary text-center mb-5">
+          Selected work: performance-first UI, clean DX, measurable results
+        </p>
+
+        <ProjectsGrid items={projects} />
+      </section>
+
+
+      {/* EDUCATION */}
+      <Education />
+
+      {/* SKILLS */}
+      <Skills />
+
+
+      {/* FOOTER */}
+      <footer className="container py-4 text-secondary small border-top border-secondary-subtle">
+        © {year} Khevavasam Artur
+      </footer>
+
+
+
+
+    </>
   );
 }
