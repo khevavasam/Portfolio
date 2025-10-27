@@ -76,15 +76,75 @@ body {
   color: rgba(230, 237, 243, .8) !important;
 }
 
-/* navbar glass: сделать бургер видимым */
-.navbar.glass .navbar-toggler {
-  border-color: rgba(255, 255, 255, .25);
+/* ——— Навбар стеклянный + анимации ——— */
+.nav-glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 14, 22, .45) !important;
+  /* слегка темнее для читабельности */
+  transition: background-color .2s ease, box-shadow .2s ease, padding .2s ease;
+  padding-block: .65rem;
 }
 
-.navbar.glass .navbar-toggler-icon {
-  filter: invert(1) opacity(.85);
+.nav-scrolled {
+  background: rgba(10, 14, 22, .70) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  padding-block: .45rem;
 }
 
+/* бренд с градиентом */
+.brand-gradient {
+  background: linear-gradient(90deg, #8be9ff 0%, #60a5fa 45%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.navbar-brand i {
+  color: #a7b7ff;
+  opacity: .9;
+}
+
+/* ссылки с аккуратным подчеркиванием */
+.nav-ux {
+  position: relative;
+  padding: .4rem .5rem;
+}
+
+.nav-ux::after {
+  content: "";
+  position: absolute;
+  left: .5rem;
+  right: .5rem;
+  bottom: .15rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #8be9ff, #a78bfa);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .18s ease;
+  opacity: .85;
+}
+
+.nav-ux:hover::after,
+.nav-ux:focus::after {
+  transform: scaleX(1);
+}
+
+/* кнопка CV чуть более выразительная */
+.navbar .btn.btn-primary {
+  box-shadow: 0 6px 18px rgba(96, 165, 250, .25);
+}
+
+/* мобильный раскрытый фон */
+@media (max-width: 767.98px) {
+  #mainNav {
+    background: rgba(10, 14, 22, .65);
+    border-radius: .75rem;
+    padding: .5rem;
+    margin-top: .5rem;
+  }
+}
 /* ===== PROJECT CARDS (media on top) ===== */
 
 /* сброс для кнопки-обёртки */

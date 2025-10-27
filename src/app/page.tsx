@@ -4,6 +4,7 @@ import ProjectsGrid from "./components/ProjectsGrid";
 import Education from "./components/Education";
 import Skills from "./components/Skills";
 import { projects } from "@/data/projects";
+import NavBar from "./components/NavBar";
 
 
 export default function Page() {
@@ -22,29 +23,12 @@ export default function Page() {
       {/* инициализация Bootstrap JS (модалки/карусели/навигация) */}
       <BootstrapClient />
 
-      {/* NAV (стекло) */}
-      <nav className="navbar navbar-expand-md sticky-top border-bottom border-1 border-secondary-subtle glass">
-        <div className="container">
-          <a className="navbar-brand fw-semibold" href="#">Khevavasam Artur</a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#nav"
-            aria-controls="nav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div id="nav" className="collapse navbar-collapse">
-            <ul className="navbar-nav ms-auto align-items-md-center gap-md-2">
-              <li className="nav-item"><a className="nav-link" href="#projects">Projects</a></li>
-              <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <>
+        <Starfield />
+        <BootstrapClient />
+        <NavBar />
+        {/* дальше твой контент */}
+      </>
 
       {/* HERO */}
       <header className="container py-5 text-center">
