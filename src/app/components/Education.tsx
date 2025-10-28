@@ -2,20 +2,18 @@
 export default function Education() {
     const items = [
         {
-            title:
-                "Bachelor of Engineering, Information and Communication Technology",
-            org: "Metropolia, University of Applied Sciences",
+            title: "Bachelor of Engineering (ICT), Information and Communication Technology",
+            org: "Metropolia University of Applied Sciences",
             year: "2025",
             desc:
-                "One of the best University of Applied Sciences in Helsinki, Finland.",
+                "A leading university of applied sciences in the Helsinki metropolitan area. Coursework and project-based labs covered software engineering, networks, cloud fundamentals, and modern web development. Emphasis on practical collaboration with industry partners and international study environment.",
         },
         {
-            title:
-                "Vocation Qualification in Information and Communication Technology, software developer",
-            org: "Luksia, Länsi-Uudenmaan koulutuskuntayhtymä",
-            year: "2024",
+            title: "Vocational Qualification in Information and Communication Technology (Software Development)",
+            org: "Luksia — Western Uusimaa Education and Training Consortium",
+            year: "2023–2025",
             desc:
-                "Internships and interesting projects during studies, with a focus on React, TypeScript and FastAPI. I completed my studies externally, as I quickly passed all exams and received my diploma.",
+                "Hands-on program focused on building real products and completing internships. Core stack: React, TypeScript, and FastAPI; additional modules in version control, testing, and deployment. Completed the qualification externally via accelerated competency assessments after passing the required examinations.",
         },
     ];
 
@@ -23,7 +21,7 @@ export default function Education() {
         <section id="education" className="container py-5">
             <h2 className="display-6 fw-bold text-center mb-2 text-gradient">Education</h2>
             <p className="lead text-secondary text-center mb-5">
-                Academic education and achievements in the field of information technology
+                Academic Background and Recognized Achievements in IT
             </p>
 
             <div className="accordion" id="edu">

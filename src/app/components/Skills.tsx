@@ -3,79 +3,76 @@ type SkillCard = {
     title: string;
     note?: string;
     tags: string[];
-    icon: string; // Bootstrap Icons класс для заголовка колонки
+    icon: string; // Bootstrap Icons class
 };
 
-// мапа: тег -> класс иконки (добавляй свои по вкусу)
+// tag -> Bootstrap Icon
 const TAG_ICONS: Record<string, string> = {
+    // Frontend
     React: "bi-lightning-charge",
-    Next: "bi-rocket",
-    Typescript: "bi-filetype-tsx",
+    "Next.js": "bi-rocket",
+    TypeScript: "bi-filetype-tsx",
+    JavaScript: "bi-filetype-js",
+    "HTML/CSS": "bi-code-slash",
     "Tailwind CSS": "bi-wind",
-    SCSS: "bi-droplet",
-    "Context API": "bi-diagram-3",
-    Redux: "bi-recycle",
-    "React Query": "bi-cloud-arrow-down",
-    "Framer Motion": "bi-camera-video",
-    Storybook: "bi-journal-richtext",
+    Bootstrap: "bi-bootstrap",
+    SSR: "bi-server",
+    i18n: "bi-translate",
+    Vite: "bi-lightning",
 
-    Python: "bi-filetype-py",
-    FastAPI: "bi-speedometer2",
-    "Node.js": "bi-node-plus",
-    Express: "bi-truck",
-    "RESTful API": "bi-plugin",
-    Swagger: "bi-list-check",
-
-    "Git/GitHub/GitLab": "bi-git",
+    // Backend
+    Django: "bi-filetype-py",
+    Wagtail: "bi-feather",
+    PHP: "bi-filetype-php",
+    MySQL: "bi-database",
     PostgreSQL: "bi-database",
-    SQLAlchemy: "bi-collection",
-    Redis: "bi-memory",
+    "REST APIs": "bi-plug",
+    "OAuth2 (Allauth)": "bi-shield-lock",
+
+    // Other / DevOps
+    "Git/GitHub": "bi-git",
     Docker: "bi-box-seam",
-    Nginx: "bi-shield-lock",
-    S3: "bi-cloud",
-    Web3: "bi-currency-bitcoin",
-    Figma: "bi-palette",
+    Vercel: "bi-cloud-upload",
+    Nginx: "bi-shield-check",
 };
 
 export default function Skills() {
     const columns: SkillCard[] = [
         {
             title: "Frontend",
-            note: "Modern technologies for creating user interfaces",
+            note: "UI and SSR basics",
             tags: [
                 "React",
-                "Next",
-                "Typescript",
+                "Next.js",
+                "TypeScript",
+                "JavaScript",
+                "HTML/CSS",
                 "Tailwind CSS",
-                "SCSS",
-                "Context API",
-                "Redux",
-                "React Query",
-                "Framer Motion",
-                "Storybook",
+                "Bootstrap",
+                "SSR",
+                "i18n",
+                "Vite",
             ],
             icon: "bi-braces",
         },
         {
             title: "Backend",
-            note: "Server technologies and API development",
-            tags: ["Python", "FastAPI", "Node.js", "Express", "RESTful API", "Swagger"],
+            note: "Servers and data",
+            tags: [
+                "Django",
+                "Wagtail",
+                "PHP",
+                "MySQL",
+                "PostgreSQL",
+                "REST APIs",
+                "OAuth2 (Allauth)",
+            ],
             icon: "bi-hdd-network",
         },
         {
             title: "Other",
-            note: "Development tools and DevOps",
-            tags: [
-                "Git/GitHub/GitLab",
-                "PostgreSQL",
-                "SQLAlchemy",
-                "Redis",
-                "Docker",
-                "Nginx",
-                "S3",
-                "Web3",
-                "Figma",
-            ],
+            note: "Dev tools & deploy",
+            tags: ["Git/GitHub", "Docker", "Vercel", "Nginx"],
             icon: "bi-tools",
         },
     ];

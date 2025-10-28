@@ -3,10 +3,18 @@
 /* ===== TOKENS ===== */
 :root {
   --bg: #0b0f16;
-  --accent-1: #60a5fa;
-  /* blue */
-  --accent-2: #a78bfa;
-  /* violet */
+
+  /* космическая палитра (марсианский рассвет) */
+  --accent-a: #f59e0b;
+  /* amber */
+  --accent-b: #f97316;
+  /* orange */
+  --accent-c: #ef4444;
+  /* red */
+  --accent-d: #fb7185;
+  /* pink */
+
+  /* glass */
   --glass-bg: rgba(255, 255, 255, .05);
   --glass-bg-strong: rgba(255, 255, 255, .08);
   --glass-border: rgba(255, 255, 255, .12);
@@ -21,14 +29,15 @@ body {
   background: var(--bg);
 }
 
+/* градиентный текст — новая палитра */
 .text-gradient {
-  background: linear-gradient(90deg, #8be9ff, var(--accent-1) 45%, var(--accent-2));
+  background: linear-gradient(90deg, var(--accent-a) 0%, var(--accent-b) 35%, var(--accent-c) 70%, var(--accent-d) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* ===== STARFIELD (background canvas) ===== */
+/* ===== STARFIELD LAYER ===== */
 .starfield {
   position: fixed;
   inset: 0;
@@ -54,10 +63,6 @@ body {
   background-color: transparent !important;
 }
 
-.glass .text-secondary {
-  color: rgba(230, 237, 243, .8) !important;
-}
-
 .hover-lift {
   transition: transform .15s ease, box-shadow .15s ease;
 }
@@ -70,6 +75,11 @@ body {
   background-color: rgba(255, 255, 255, .09) !important;
 }
 
+/* вторичный текст на стекле — светлее */
+.glass .text-secondary {
+  color: rgba(230, 237, 243, .8) !important;
+}
+
 /* ===== NAVBAR ===== */
 .nav-glass {
   backdrop-filter: blur(10px);
@@ -80,23 +90,25 @@ body {
 }
 
 .nav-scrolled {
-  background: rgba(10, 14, 22, .7) !important;
+  background: rgba(10, 14, 22, .70) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
   padding-block: .45rem;
 }
 
+/* бренд с градиентом — марсианский рассвет */
 .brand-gradient {
-  background: linear-gradient(90deg, #8be9ff 0%, #60a5fa 45%, #a78bfa 100%);
+  background: linear-gradient(90deg, var(--accent-a) 0%, var(--accent-b) 35%, var(--accent-c) 70%, var(--accent-d) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .navbar-brand i {
-  color: #a7b7ff;
-  opacity: .9;
+  color: var(--accent-a);
+  opacity: .95;
 }
 
+/* ссылки с аккуратным подчеркиванием — новая палитра */
 .nav-ux {
   position: relative;
   padding: .4rem .5rem;
@@ -110,11 +122,11 @@ body {
   bottom: .15rem;
   height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #8be9ff, #a78bfa);
+  background: linear-gradient(90deg, var(--accent-a), var(--accent-d));
   transform: scaleX(0);
   transform-origin: center;
   transition: transform .18s ease;
-  opacity: .85;
+  opacity: .9;
 }
 
 .nav-ux:hover::after,
@@ -122,11 +134,12 @@ body {
   transform: scaleX(1);
 }
 
+/* кнопка CV — теплый отблеск */
 .navbar .btn.btn-primary {
-  box-shadow: 0 6px 18px rgba(96, 165, 250, .25);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent-a) 35%, transparent);
 }
 
-@media (max-width:767.98px) {
+@media (max-width: 767.98px) {
   #mainNav {
     background: rgba(10, 14, 22, .65);
     border-radius: .75rem;
@@ -167,89 +180,21 @@ body {
   transform: scale(1.06);
 }
 
+/* бейджи читаемые на стекле */
 .badge.text-bg-dark {
   background-color: rgba(0, 0, 0, .55) !important;
   color: rgba(255, 255, 255, .9) !important;
 }
 
-/* ===== MODAL (DARK, NOT GLASS) ===== */
-.modal-backdrop {
-  background-color: #000 !important;
+/* ===== MODAL (Projects) — если используешь glass, оставил как было ===== */
+.modal-content.glass {
+  background-color: var(--glass-bg-strong) !important;
+  border: 1px solid var(--glass-border) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.modal-backdrop.show {
-  opacity: .78 !important;
-}
-
-.modal-content.modal-solid {
-  background: #0b0f16;
-  border: 1px solid rgba(255, 255, 255, .08);
-  color: #e6edf3;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
-}
-
-.modal-content.modal-solid .modal-header,
-.modal-content.modal-solid .modal-body,
-.modal-content.modal-solid .modal-footer {
-  background: transparent !important;
-  color: inherit;
-  border-color: rgba(255, 255, 255, .08) !important;
-}
-
-.modal-content.modal-solid .btn-close {
-  filter: invert(1) opacity(.85);
-}
-
-.modal-content.modal-solid .carousel-inner {
-  border-radius: .75rem;
-  border: 1px solid rgba(255, 255, 255, .06);
-  overflow: hidden;
-}
-
-.modal-content.modal-solid p,
-.modal-content.modal-solid .text-secondary {
-  color: rgba(230, 237, 243, .9) !important;
-}
-
-/* ===== AVATAR (Hero) ===== */
-.avatar-hero {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  position: relative;
-  background: rgba(255, 255, 255, .04);
-  border: 2px solid rgba(255, 255, 255, .35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .35), inset 0 0 30px rgba(255, 255, 255, .08);
-  overflow: hidden;
-}
-
-.avatar-hero::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: conic-gradient(#8be9ff, #60a5fa 45%, #a78bfa, #8be9ff);
-  filter: blur(12px);
-  opacity: .25;
-  z-index: -1;
-}
-
-.avatar-hero i {
-  font-size: 6.2rem;
-  line-height: 1;
-  color: #e6edf3;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
-}
-
-.avatar-hero:hover::after {
-  opacity: .35;
-}
-
-/* ===== OPTIONAL BLOBS (toggle on demand) ===== */
+/* ===== OPTIONAL BLOBS (под новый градиент) ===== */
 .backdrop {
   position: fixed;
   inset: 0;
@@ -270,8 +215,8 @@ body {
   left: -10vw;
   top: -8vh;
   background:
-    radial-gradient(circle at 40% 40%, var(--accent-1), transparent 60%),
-    radial-gradient(circle at 70% 60%, var(--accent-2), transparent 55%);
+    radial-gradient(circle at 40% 40%, var(--accent-a), transparent 60%),
+    radial-gradient(circle at 70% 60%, var(--accent-b), transparent 55%);
 }
 
 .b2 {
@@ -280,8 +225,8 @@ body {
   width: 48vw;
   height: 48vw;
   background:
-    radial-gradient(circle at 40% 50%, #34d399, transparent 55%),
-    radial-gradient(circle at 70% 40%, #22d3ee, transparent 55%);
+    radial-gradient(circle at 40% 50%, var(--accent-c), transparent 55%),
+    radial-gradient(circle at 70% 40%, var(--accent-d), transparent 55%);
 }
 
 .b3 {
@@ -290,6 +235,96 @@ body {
   width: 60vw;
   height: 60vw;
   background:
-    radial-gradient(circle at 50% 50%, #f472b6, transparent 60%),
-    radial-gradient(circle at 80% 30%, #fb7185, transparent 55%);
+    radial-gradient(circle at 50% 50%, var(--accent-b), transparent 60%),
+    radial-gradient(circle at 80% 30%, var(--accent-d), transparent 55%);
 }
+
+/* ===== Skills: иконки/чипы ===== */
+.icon-bubble-lg {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
+
+.icon-bubble-lg i {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+}
+
+.chip-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .85rem;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, .06) !important;
+  border: 1px solid rgba(255, 255, 255, .16) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform .12s ease, background-color .15s ease;
+}
+
+.chip-lg:hover {
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, .10) !important;
+}
+
+/* ===== AVATAR RING — перелив под новую палитру ===== */
+.avatar-hero {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: rgba(255, 255, 255, .04);
+  border: 2px solid rgba(255, 255, 255, .35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35), inset 0 0 30px rgba(255, 255, 255, .08);
+  overflow: hidden;
+}
+
+.avatar-hero::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent-a), var(--accent-b) 25%, var(--accent-c) 60%, var(--accent-d), var(--accent-a));
+  filter: blur(12px);
+  opacity: .25;
+  z-index: -1;
+}
+
+.avatar-hero i {
+  font-size: 6.2rem;
+  line-height: 1;
+  color: #e6edf3;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+}
+
+.avatar-hero:hover::after {
+  opacity: .35;
+}
+
+/* ===== DARK MODAL (если используешь «глухую») ===== */
+.modal-backdrop{ background-color:#000 !important; }
+.modal-backdrop.show{ opacity:.78 !important; }
+.modal-content.modal-solid{
+  background:#0b0f16; border:1px solid rgba(255,255,255,.08); color:#e6edf3;
+  backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+}
+.modal-content.modal-solid .modal-header,
+.modal-content.modal-solid .modal-body,
+.modal-content.modal-solid .modal-footer{
+  background:transparent !important; color:inherit; border-color:rgba(255,255,255,.08) !important;
+}
+.modal-content.modal-solid .btn-close{ filter: invert(1) opacity(.85); }
+.modal-content.modal-solid .carousel-inner{ border-radius:.75rem; border:1px solid rgba(255,255,255,.06); overflow:hidden; }
+.modal-content.modal-solid p, .modal-content.modal-solid .text-secondary{ color: rgba(230,237,243,.9) !important; }

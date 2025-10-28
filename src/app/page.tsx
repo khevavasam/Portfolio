@@ -11,8 +11,8 @@ export default function Page() {
   const year = new Date().getFullYear();
 
   const stats = [
-    { value: "2+", label: "years of experience" },
-    { value: "19+", label: "projects" },
+    { value: "1.5+", label: "years of experience" },
+    { value: "10+", label: "projects" },
     { value: "100%", label: "quality" },
   ];
 
