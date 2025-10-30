@@ -18,8 +18,8 @@ export default function Education() {
     ];
 
     return (
-        <section id="education" className="container py-5">
-            <h2 className="display-6 fw-bold text-center mb-2 text-gradient">Education</h2>
+        <section id="education" className="container py-5 edu-theme text-center">
+            <span className="display-6 fw-bold text-center mb-2 text-gradient">Education</span>
             <p className="lead text-secondary text-center mb-5">
                 Academic Background and Recognized Achievements in IT
             </p>

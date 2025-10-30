@@ -3,6 +3,14 @@ import { useId, useMemo, useState } from "react";
 import type { Project } from "@/data/projects";
 import CardMediaSwiper from "./CardMediaSwiper";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Thumbs, FreeMode, Pagination, Navigation, Keyboard } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/thumbs";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
 type Props = { items: Project[] };
 
 const FALLBACK =
@@ -21,34 +29,33 @@ const FALLBACK =
 
 export default function ProjectsGrid({ items }: Props) {
     const modalId = useId().replace(/:/g, "");
-    const carouselId = useId().replace(/:/g, "");
     const [active, setActive] = useState<Project | null>(null);
+    const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
     const onOpen = (p: Project) => setActive(p);
     const onClose = () => setActive(null);
+    const [mainSwiper, setMainSwiper] = useState<any>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
 
     const activeImages = useMemo(
         () => (active?.images?.length ? active.images : active ? [active.cover] : []),
         [active]
     );
-
     return (
         <>
             <div className="row g-3 g-md-4">
                 {items.map((p) => {
-                    const media = p.images?.length ? p.images : [p.cover];
+                    const media = (p.previews?.length ? p.previews : (p.images?.length ? p.images : [p.cover]));
                     return (
                         <div key={p.id} className="col-12 col-sm-6 col-lg-4">
-                            <div className="card h-100 border-0 project-card glass hover-glass hover-lift">
-                                {/* media (full-bleed) + свайпы + открытие модалки */}
+                            <div className="card h-100 border-0 project-card glass hover-glass hover-lift hover-accent">
                                 <CardMediaSwiper
                                     images={media}
                                     ariaLabel={`Open ${p.title}`}
                                     onClick={() => onOpen(p)}
-                                    modalTarget={`#${modalId}`}   // <- важно!
+                                    modalTarget={`#${modalId}`}
                                 />
-
-                                {/* content */}
                                 <div className="card-body">
                                     <div className="d-flex align-items-start justify-content-between gap-2">
                                         <div>
@@ -61,20 +68,16 @@ export default function ProjectsGrid({ items }: Props) {
                                                 href={p.href}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                onClick={(e) => e.stopPropagation()} // чтобы по кнопке Demo модалка не открывалась
+                                                onClick={(e) => e.stopPropagation()}
                                             >
                                                 Demo
                                             </a>
                                         )}
                                     </div>
-
                                     <p className="text-secondary mt-2 mb-3">{p.summary}</p>
-
                                     <div className="d-flex flex-wrap gap-1">
                                         {p.tags.map((t) => (
-                                            <span key={t} className="badge text-bg-dark border border-secondary-subtle">
-                                                {t}
-                                            </span>
+                                            <span key={t} className="badge text-bg-dark border border-warning-subtle hover-accent">{t}</span>
                                         ))}
                                     </div>
                                 </div>
@@ -84,63 +87,75 @@ export default function ProjectsGrid({ items }: Props) {
                 })}
             </div>
 
-            {/* MODAL — glass */}
+            {/* MODAL — тёмный блок, без «glass» */}
             <div className="modal fade" id={modalId} tabIndex={-1} aria-hidden="true" onClick={onClose}>
                 <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content modal-solid border-0 shadow-lg" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
+                    <div className="modal-content bg-dark text-light border-0 shadow-lg" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header border-0">
                             <div>
-                                <h5 className="modal-title">{active?.title}</h5>
-                                {active?.subtitle && <div className="text-secondary small">{active.subtitle}</div>}
+                                <h5 className="modal-title mb-0">{active?.title}</h5>
+                                {active?.subtitle && <div className="text-white-50 small">{active.subtitle}</div>}
                             </div>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
 
                         {active && (
                             <div className="modal-body">
-                                <div id={carouselId} className="carousel slide mb-3">
-                                    <div className="carousel-inner rounded-3 overflow-hidden">
-                                        {activeImages.map((src, i) => (
-                                            <div key={src} className={`carousel-item${i === 0 ? " active" : ""}`}>
+                                {/* основная «арена»: компактная, тёмный фон */}
+                                <div
+                                    className="mb-3 rounded overflow-hidden d-flex align-items-center justify-content-center bg-black"
+                                    style={{ height: "62vh" }}
+                                >
+                                    <Swiper
+                                        modules={[Thumbs, Pagination, Navigation, Keyboard]}
+                                        onSwiper={setMainSwiper}                     // ← сохраняем инстанс
+                                        onSlideChange={(s) => setActiveIndex(s.realIndex)} // ← следим за активным
+                                        keyboard={{ enabled: true, onlyInViewport: true, pageUpDown: false }}
+                                        thumbs={{ swiper: thumbsSwiper }}
+                                        pagination={{ clickable: true }}
+                                        navigation
+                                        className="w-100 h-100"
+                                    >
+                                        {activeImages.map((src) => (
+                                            <SwiperSlide key={src} className="d-flex align-items-center justify-content-center">
                                                 <img
                                                     src={src}
-                                                    className="d-block w-100"
                                                     alt=""
+                                                    style={{ width: "100%", height: "100%", objectFit: "contain", background: "#0b0f16" }}
                                                     onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
                                                 />
-                                            </div>
+                                            </SwiperSlide>
                                         ))}
-                                    </div>
-
-                                    {activeImages.length > 1 && (
-                                        <>
-                                            <button
-                                                className="carousel-control-prev"
-                                                type="button"
-                                                data-bs-target={`#${carouselId}`}
-                                                data-bs-slide="prev"
-                                            >
-                                                <span className="carousel-control-prev-icon" aria-hidden="true" />
-                                                <span className="visually-hidden">Previous</span>
-                                            </button>
-                                            <button
-                                                className="carousel-control-next"
-                                                type="button"
-                                                data-bs-target={`#${carouselId}`}
-                                                data-bs-slide="next"
-                                            >
-                                                <span className="carousel-control-next-icon" aria-hidden="true" />
-                                                <span className="visually-hidden">Next</span>
-                                            </button>
-                                        </>
-                                    )}
+                                    </Swiper>
                                 </div>
 
-                                <p className="mb-0">{active.details}</p>
+                                <div className="mt-2 d-flex flex-wrap gap-2">
+                                    {activeImages.map((src, i) => (
+                                        <button
+                                            key={"t-" + src}
+                                            type="button"
+                                            onClick={() => mainSwiper?.slideTo(i)}
+                                            aria-current={i === activeIndex ? "true" : undefined}
+                                            className={`p-0 rounded overflow-hidden border ${i === activeIndex ? "border-4 border-warning" : "border-secondary"}`}
+                                            style={{ width: 128, height: 72, background: "#111" }}
+                                            title={`Slide ${i + 1}`}
+                                        >
+                                            <img
+                                                src={src}
+                                                alt=""
+                                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                                                onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+
+
+                                {active.details && <p className="preline mt-3 mb-0 text-white-75">{active.details}</p>}
                             </div>
                         )}
 
-                        <div className="modal-footer">
+                        <div className="modal-footer border-0">
                             {active?.href && (
                                 <a className="btn btn-primary" href={active.href} target="_blank" rel="noreferrer">
                                     Open demo
@@ -153,6 +168,7 @@ export default function ProjectsGrid({ items }: Props) {
                     </div>
                 </div>
             </div>
+
         </>
     );
 }

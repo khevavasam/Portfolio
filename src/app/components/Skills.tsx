@@ -78,8 +78,8 @@ export default function Skills() {
     ];
 
     return (
-        <section id="skills" className="container py-5">
-            <h2 className="display-6 fw-bold text-center mb-2 text-gradient">Skills</h2>
+        <section id="skills" className="container py-5 text-center">
+            <span className="display-6 fw-bold text-center mb-2 text-gradient">Skills</span>
             <p className="lead text-secondary text-center mb-5">
                 The technology stack and tools I use in development
             </p>
@@ -87,7 +87,7 @@ export default function Skills() {
             <div className="row g-4">
                 {columns.map((col) => (
                     <div key={col.title} className="col-12 col-md-6 col-xl-4">
-                        <div className="card glass hover-glass border-0 shadow-sm h-100">
+                        <div className="card glass hover-glass border-0 shadow-sm h-100 hover-accent">
                             <div className="card-body p-4">
                                 <div className="d-flex align-items-center gap-3 mb-3">
                                     <span className="icon-bubble-lg">
@@ -102,7 +102,7 @@ export default function Skills() {
                                     {col.tags.map((t) => (
                                         <span
                                             key={t}
-                                            className="chip-lg text-bg-dark border border-secondary-subtle"
+                                            className="chip-lg text-bg-dark border border-secondary-subtle hover-accent"
                                             title={t}
                                         >
                                             {/* иконка для тэга, если есть в мапе */}

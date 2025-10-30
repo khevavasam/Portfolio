@@ -4,151 +4,99 @@
 :root {
   --bg: #0b0f16;
 
-  /* космическая палитра (марсианский рассвет) */
-  --accent-a: #f59e0b;
-  /* amber */
-  --accent-b: #f97316;
-  /* orange */
-  --accent-c: #ef4444;
-  /* red */
-  --accent-d: #fb7185;
-  /* pink */
+  /* космическая палитра */
+  --accent-a: #f59e0b; /* amber */
+  --accent-b: #f97316; /* orange */
+  --accent-c: #ef4444; /* red */
+  --accent-d: #fb7185; /* pink */
 
   /* glass */
   --glass-bg: rgba(255, 255, 255, .05);
   --glass-bg-strong: rgba(255, 255, 255, .08);
   --glass-border: rgba(255, 255, 255, .12);
+
+  /* единый hover-градиент */
+  --hover-accent-grad: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--accent-a) 12%, transparent),
+    color-mix(in oklab, var(--accent-d) 12%, transparent)
+  );
 }
 
 /* ===== BASE ===== */
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); }
 
-body {
-  background: var(--bg);
-}
-
-/* градиентный текст — новая палитра */
-.text-gradient {
+/* градиентный текст — марсианский рассвет */
+.text-gradient{
   background: linear-gradient(90deg, var(--accent-a) 0%, var(--accent-b) 35%, var(--accent-c) 70%, var(--accent-d) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
 /* ===== STARFIELD LAYER ===== */
-.starfield {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
+.starfield{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
 /* ===== GLASS UI ===== */
-.glass {
+.glass{
   background-color: var(--glass-bg) !important;
   border: 1px solid var(--glass-border) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
 }
+.glass-strong{ background-color: var(--glass-bg-strong) !important; }
+.card.glass, .card.glass .card-body{ background-color: transparent !important; }
 
-.glass-strong {
-  background-color: var(--glass-bg-strong) !important;
-}
+.hover-lift{ transition: transform .15s ease, box-shadow .15s ease; }
+.hover-lift:hover{ transform: translateY(-2px); }
+.hover-glass:hover{ background-color: rgba(255,255,255,.09) !important; }
 
-.card.glass,
-.card.glass .card-body {
-  background-color: transparent !important;
-}
-
-.hover-lift {
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-2px);
-}
-
-.hover-glass:hover {
-  background-color: rgba(255, 255, 255, .09) !important;
-}
+/* универсальный hover-подсвет (вешай класс .hover-accent где нужно) */
+.hover-accent:hover{ background: var(--hover-accent-grad) !important; }
 
 /* вторичный текст на стекле — светлее */
-.glass .text-secondary {
-  color: rgba(230, 237, 243, .8) !important;
-}
+.glass .text-secondary{ color: rgba(230,237,243,.8) !important; }
 
 /* ===== NAVBAR ===== */
-.nav-glass {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: rgba(10, 14, 22, .45) !important;
+.nav-glass{
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  background: rgba(10,14,22,.45) !important;
   transition: background-color .2s ease, box-shadow .2s ease, padding .2s ease;
   padding-block: .65rem;
 }
-
-.nav-scrolled {
-  background: rgba(10, 14, 22, .70) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+.nav-scrolled{
+  background: rgba(10,14,22,.70) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
   padding-block: .45rem;
 }
-
-/* бренд с градиентом — марсианский рассвет */
-.brand-gradient {
+.brand-gradient{
   background: linear-gradient(90deg, var(--accent-a) 0%, var(--accent-b) 35%, var(--accent-c) 70%, var(--accent-d) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+.navbar-brand i{ color: var(--accent-a); opacity: .95; }
 
-.navbar-brand i {
-  color: var(--accent-a);
-  opacity: .95;
-}
-
-/* ссылки с аккуратным подчеркиванием — новая палитра */
-.nav-ux {
-  position: relative;
-  padding: .4rem .5rem;
-}
-
-.nav-ux::after {
-  content: "";
-  position: absolute;
-  left: .5rem;
-  right: .5rem;
-  bottom: .15rem;
-  height: 2px;
-  border-radius: 2px;
+.nav-ux{ position: relative; padding: .4rem .5rem; }
+.nav-ux::after{
+  content: ""; position: absolute; left: .5rem; right: .5rem; bottom: .15rem;
+  height: 2px; border-radius: 2px;
   background: linear-gradient(90deg, var(--accent-a), var(--accent-d));
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform .18s ease;
-  opacity: .9;
+  transform: scaleX(0); transform-origin: center; transition: transform .18s ease; opacity: .9;
+}
+.nav-ux:hover::after, .nav-ux:focus::after{ transform: scaleX(1); }
+
+/* кнопка CV в палитре (минимально) */
+.navbar .btn.btn-warning{
+  background: linear-gradient(90deg, var(--accent-a), var(--accent-d)) !important;
+  background-origin: padding-box;
 }
 
-.nav-ux:hover::after,
-.nav-ux:focus::after {
-  transform: scaleX(1);
-}
-
-/* кнопка CV — теплый отблеск */
-.navbar .btn.btn-primary {
-  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent-a) 35%, transparent);
-}
-
-@media (max-width: 767.98px) {
-  #mainNav {
-    background: rgba(10, 14, 22, .65);
-    border-radius: .75rem;
-    padding: .5rem;
-    margin-top: .5rem;
+@media (max-width: 767.98px){
+  #mainNav{
+    background: rgba(10,14,22,.65);
+    border-radius: .75rem; padding: .5rem; margin-top: .5rem;
   }
 }
 
-/* ===== PROJECT CARDS ===== */
+/* ===== PROJECT CARDS (refined) ===== */
 .btn-reset {
   all: unset;
   display: block;
@@ -156,163 +104,150 @@ body {
   cursor: pointer;
 }
 
+.project-card {
+  border: 1px solid color-mix(in oklab, var(--accent-a) 20%, rgba(255, 255, 255, .12)) !important;
+  border-radius: .75rem;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  border-color: color-mix(in oklab, var(--accent-a) 40%, rgba(255, 255, 255, .18));
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+  transform: translateY(-2px);
+}
+
+/* медиаблок карточки */
 .project-card .project-media {
   position: relative;
   display: block;
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
-  border-top-left-radius: .5rem;
-  border-top-right-radius: .5rem;
+  background: #0b0f16;
+  /* тёмный фон, пока грузится */
 }
 
+/* мягкий оверлей для глубины (диагональ + низ) */
+.project-card .project-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, .18)),
+    linear-gradient(135deg,
+      color-mix(in oklab, var(--accent-a) 9%, transparent),
+      transparent 60%);
+  mix-blend-mode: normal;
+}
+
+/* картинка */
 .project-card .project-media-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.02);
+  transform: scale(1.01);
   transition: transform .25s ease, filter .25s ease;
+  will-change: transform;
 }
 
 .project-card:hover .project-media-img {
-  transform: scale(1.06);
+  transform: scale(1.05);
+  filter: saturate(1.05) contrast(1.02);
 }
 
-/* бейджи читаемые на стекле */
+/* пули свайпера на карточке сделаем аккуратнее */
+.project-card .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, .6);
+  opacity: .7;
+}
+
+.project-card .swiper-pagination-bullet-active {
+  background: #f97316;
+  opacity: 1;
+}
+
+/* бейджи читаемые на тёмном фоне */
 .badge.text-bg-dark {
   background-color: rgba(0, 0, 0, .55) !important;
   color: rgba(255, 255, 255, .9) !important;
 }
-
-/* ===== MODAL (Projects) — если используешь glass, оставил как было ===== */
-.modal-content.glass {
-  background-color: var(--glass-bg-strong) !important;
-  border: 1px solid var(--glass-border) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+/* чтобы стрелки и точки были видны на dark */
+.modal .swiper-button-next,
+.modal .swiper-button-prev {
+  color: #f97316;
 }
 
-/* ===== OPTIONAL BLOBS (под новый градиент) ===== */
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  overflow: hidden;
+.modal .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, .5);
 }
 
-.blob {
-  position: absolute;
-  width: 55vw;
-  height: 55vw;
-  filter: blur(60px);
-  opacity: .6;
-  mix-blend-mode: screen;
+.modal .swiper-pagination-bullet-active {
+  background: #f97316;
 }
 
-.b1 {
-  left: -10vw;
-  top: -8vh;
+/* ===== OPTIONAL BLOBS под новый градиент ===== */
+.backdrop{ position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+.blob{
+  position: absolute; width: 55vw; height: 55vw;
+  filter: blur(60px); opacity: .6; mix-blend-mode: screen;
+}
+.b1{
+  left: -10vw; top: -8vh;
   background:
     radial-gradient(circle at 40% 40%, var(--accent-a), transparent 60%),
     radial-gradient(circle at 70% 60%, var(--accent-b), transparent 55%);
 }
-
-.b2 {
-  right: -12vw;
-  top: 10vh;
-  width: 48vw;
-  height: 48vw;
+.b2{
+  right: -12vw; top: 10vh; width: 48vw; height: 48vw;
   background:
     radial-gradient(circle at 40% 50%, var(--accent-c), transparent 55%),
     radial-gradient(circle at 70% 40%, var(--accent-d), transparent 55%);
 }
-
-.b3 {
-  left: 12vw;
-  bottom: -18vh;
-  width: 60vw;
-  height: 60vw;
+.b3{
+  left: 12vw; bottom: -18vh; width: 60vw; height: 60vw;
   background:
     radial-gradient(circle at 50% 50%, var(--accent-b), transparent 60%),
     radial-gradient(circle at 80% 30%, var(--accent-d), transparent 55%);
 }
 
 /* ===== Skills: иконки/чипы ===== */
-.icon-bubble-lg {
-  display: inline-grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, .06);
-  border: 1px solid rgba(255, 255, 255, .12);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+.icon-bubble-lg{
+  display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 14px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
 }
+.icon-bubble-lg i{ font-size: 1.6rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
 
-.icon-bubble-lg i {
-  font-size: 1.6rem;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
-}
-
-.chip-lg {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .55rem .85rem;
-  font-size: 1rem;
-  line-height: 1;
-  border-radius: 999px;
-  background-color: rgba(255, 255, 255, .06) !important;
-  border: 1px solid rgba(255, 255, 255, .16) !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.chip-lg{
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .55rem .85rem; font-size: 1rem; line-height: 1; border-radius: 999px;
+  background-color: rgba(255,255,255,.06) !important; border: 1px solid rgba(255,255,255,.16) !important;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   transition: transform .12s ease, background-color .15s ease;
 }
+.chip-lg:hover{ transform: translateY(-1px);}
 
-.chip-lg:hover {
-  transform: translateY(-1px);
-  background-color: rgba(255, 255, 255, .10) !important;
-}
 
-/* ===== AVATAR RING — перелив под новую палитру ===== */
-.avatar-hero {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  position: relative;
-  background: rgba(255, 255, 255, .04);
-  border: 2px solid rgba(255, 255, 255, .35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .35), inset 0 0 30px rgba(255, 255, 255, .08);
+/* ===== AVATAR RING ===== */
+.avatar-hero{
+  width: 180px; height: 180px; border-radius: 50%; display: grid; place-items: center; position: relative;
+  background: rgba(255,255,255,.04); border: 2px solid rgba(255,255,255,.35);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 30px rgba(255,255,255,.08);
   overflow: hidden;
 }
-
-.avatar-hero::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
+.avatar-hero::after{
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
   background: conic-gradient(var(--accent-a), var(--accent-b) 25%, var(--accent-c) 60%, var(--accent-d), var(--accent-a));
-  filter: blur(12px);
-  opacity: .25;
-  z-index: -1;
+  filter: blur(12px); opacity: .25; z-index: -1;
 }
+.avatar-hero i{ font-size: 6.2rem; line-height: 1; color: #e6edf3; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+.avatar-hero:hover::after{ opacity: .35; }
 
-.avatar-hero i {
-  font-size: 6.2rem;
-  line-height: 1;
-  color: #e6edf3;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
-}
-
-.avatar-hero:hover::after {
-  opacity: .35;
-}
-
-/* ===== DARK MODAL (если используешь «глухую») ===== */
+/* ===== DARK MODAL (глухая) ===== */
 .modal-backdrop{ background-color:#000 !important; }
 .modal-backdrop.show{ opacity:.78 !important; }
 .modal-content.modal-solid{
@@ -326,5 +261,59 @@ body {
   background:transparent !important; color:inherit; border-color:rgba(255,255,255,.08) !important;
 }
 .modal-content.modal-solid .btn-close{ filter: invert(1) opacity(.85); }
-.modal-content.modal-solid .carousel-inner{ border-radius:.75rem; border:1px solid rgba(255,255,255,.06); overflow:hidden; }
-.modal-content.modal-solid p, .modal-content.modal-solid .text-secondary{ color: rgba(230,237,243,.9) !important; }
+.modal-content.modal-solid .carousel-inner{
+  border-radius:.75rem; border:1px solid rgba(255,255,255,.06); overflow:hidden;
+}
+.modal-content.modal-solid p,
+.modal-content.modal-solid .text-secondary{ color: rgba(230,237,243,.9) !important; }
+
+/* ===== Education (марсианская тема) ===== */
+.edu-theme .accordion-button{
+  background: transparent; color: #e6edf3; box-shadow: none;
+}
+.edu-theme .accordion-button:hover{
+  background: var(--hover-accent-grad);
+}
+.edu-theme .accordion-button:not(.collapsed){
+  color: #fff; background: linear-gradient(90deg, var(--accent-a), var(--accent-d));
+}
+.edu-theme .accordion-button:focus{
+  border-color: color-mix(in oklab, var(--accent-a) 50%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--accent-a) 28%, transparent),
+    0 0 0 6px color-mix(in oklab, var(--accent-d) 20%, transparent);
+}
+.edu-theme .accordion-body{
+  border-top: 1px solid color-mix(in oklab, var(--accent-a) 18%, rgba(255,255,255,.10));
+}
+.year-badge{
+  border: 1px solid color-mix(in oklab, var(--accent-a) 55%, rgba(255,255,255,.16));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+    linear-gradient(90deg, var(--accent-a), var(--accent-d));
+  color: #12141a;
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent-a) 22%, transparent);
+}
+.text-secondary{
+  color: color-mix(in oklab, #e6edf3 85%, var(--accent-a) 15%) !important;
+}
+
+
+/* пузырёк-иконка — кольцо с тёплым свечением */
+.icon-bubble-lg {
+  border-color: color-mix(in oklab, var(--accent-a) 40%, rgba(255, 255, 255, .12));
+  background: radial-gradient(circle at 30% 30%, color-mix(in oklab, var(--accent-a) 15%, transparent), transparent 60%), rgba(255, 255, 255, .06);
+}
+
+
+
+/* chip-lg text-bg-dark border border-secondary */
+
+.icon-bubble-lg i {
+  color: #fff;
+  /* контрастная иконка */
+}
+
+.preline {
+  white-space: pre-line;
+}
