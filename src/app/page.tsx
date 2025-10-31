@@ -1,4 +1,4 @@
-import Starfield from "./components/Starfield"; // или ./components/StarfieldPro
+import Starfield from "./components/Starfield";
 import BootstrapClient from "./components/BootstrapClient";
 import ProjectsGrid from "./components/ProjectsGrid";
 import Education from "./components/Education";
@@ -20,14 +20,14 @@ export default function Page() {
     <>
       {/* интерактивный фон */}
       <Starfield />
-      {/* инициализация Bootstrap JS (модалки/карусели/навигация) */}
+      {/* инициализация Bootstrap JS */}
       <BootstrapClient />
 
       <>
         <Starfield />
         <BootstrapClient />
         <NavBar />
-        {/* дальше твой контент */}
+        {}
       </>
 
       {/* HERO */}
@@ -44,7 +44,7 @@ export default function Page() {
         </p>
         
 
-        {/* STATS (стекло) */}
+        {/* STATS */}
         <div className="row g-3 g-md-4 mt-1">
           {stats.map((s) => (
             <div key={s.label} className="col-12 col-md-4">

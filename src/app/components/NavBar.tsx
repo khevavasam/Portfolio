@@ -50,7 +50,7 @@ export default function NavBar() {
                             <a className="nav-link nav-ux" href="#skills">Skills</a>
                         </li>
                         <li className="nav-item d-none d-md-block">
-                            <a className="btn btn-sm btn-warning hover-accent" href="/cv.pdf" target="_blank" rel="noreferrer">
+                            <a className="btn btn-sm btn-warning hover-accent" href="/CV.pdf" target="_blank" rel="noreferrer">
                                 <i className="bi bi-file-earmark-text me-1" />
                                 CV
                             </a>

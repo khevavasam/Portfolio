@@ -87,7 +87,7 @@ export default function ProjectsGrid({ items }: Props) {
                 })}
             </div>
 
-            {/* MODAL — тёмный блок, без «glass» */}
+            {/* MODAL */}
             <div className="modal fade" id={modalId} tabIndex={-1} aria-hidden="true" onClick={onClose}>
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content bg-dark text-light border-0 shadow-lg" onClick={(e) => e.stopPropagation()}>
@@ -108,8 +108,8 @@ export default function ProjectsGrid({ items }: Props) {
                                 >
                                     <Swiper
                                         modules={[Thumbs, Pagination, Navigation, Keyboard]}
-                                        onSwiper={setMainSwiper}                     // ← сохраняем инстанс
-                                        onSlideChange={(s) => setActiveIndex(s.realIndex)} // ← следим за активным
+                                        onSwiper={setMainSwiper}                    
+                                        onSlideChange={(s) => setActiveIndex(s.realIndex)} 
                                         keyboard={{ enabled: true, onlyInViewport: true, pageUpDown: false }}
                                         thumbs={{ swiper: thumbsSwiper }}
                                         pagination={{ clickable: true }}
