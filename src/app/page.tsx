@@ -80,7 +80,7 @@ export default function Page() {
 
       {/* FOOTER */}
       <footer className="container py-4 text-secondary small border-top border-secondary-subtle">
-        © {year} Khevavasam Artur
+        © {year} Khevavasam Artur - Portfolio - Created using React
       </footer>
 
 
