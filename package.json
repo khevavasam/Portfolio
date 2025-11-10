@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -H :: -p $PORT",
-    "lint": "eslint"
+    "start": "next start",
+    "lint": "eslint",
+    "export": "next export"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
