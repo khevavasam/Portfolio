@@ -50,6 +50,16 @@ export const en = {
       },
     ],
   },
+
+  skills: {
+    title: 'Skills',
+    subtitle: 'The technology stack and tools I use in development',
+    columns: {
+      frontend: { title: 'Frontend', note: 'UI and SSR basics' },
+      backend: { title: 'Backend', note: 'Servers and data' },
+      other: { title: 'Other', note: 'Dev tools & deploy' },
+    },
+  },
 } as const;
 
 export type I18n = typeof en;

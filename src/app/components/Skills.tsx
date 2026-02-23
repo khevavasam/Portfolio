@@ -1,121 +1,184 @@
 // src/app/components/Skills.tsx
-type SkillCard = {
-    title: string;
-    note?: string;
-    tags: string[];
-    icon: string; // Bootstrap Icons class
+'use client';
+
+import {
+  Box,
+  Container,
+  Heading,
+  HStack,
+  SimpleGrid,
+  Text,
+  VStack,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
+import {
+  FiTool,
+  FiDatabase,
+  FiCloud,
+  FiGlobe,
+  FiServer,
+  FiShield,
+  FiFeather,
+  FiCode,
+  FiGitBranch,
+  FiBox,
+} from 'react-icons/fi';
+import { SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiTailwindcss, SiBootstrap, SiVite, SiDjango, SiPhp, SiMysql, SiPostgresql, SiNginx, SiVercel, SiHtml5 } from 'react-icons/si';
+
+type SkillColumn = {
+  key: string;
+  title: string;
+  note?: string;
+  icon: React.ReactNode;
+  tags: string[];
 };
 
-// tag -> Bootstrap Icon
-const TAG_ICONS: Record<string, string> = {
-    // Frontend
-    React: "bi-lightning-charge",
-    "Next.js": "bi-rocket",
-    TypeScript: "bi-filetype-tsx",
-    JavaScript: "bi-filetype-js",
-    "HTML/CSS": "bi-code-slash",
-    "Tailwind CSS": "bi-wind",
-    Bootstrap: "bi-bootstrap",
-    SSR: "bi-server",
-    i18n: "bi-translate",
-    Vite: "bi-lightning",
+const TAG_ICON: Record<string, React.ReactNode> = {
+  React: <SiReact />,
+  'Next.js': <SiNextdotjs />,
+  TypeScript: <SiTypescript />,
+  JavaScript: <SiJavascript />,
+  'HTML/CSS': <SiHtml5 />,
+  'Tailwind CSS': <SiTailwindcss />,
+  Bootstrap: <SiBootstrap />,
+  SSR: <FiServer />,
+  i18n: <FiGlobe />,
+  Vite: <SiVite />,
 
-    // Backend
-    Django: "bi-filetype-py",
-    Wagtail: "bi-feather",
-    PHP: "bi-filetype-php",
-    MySQL: "bi-database",
-    PostgreSQL: "bi-database",
-    "REST APIs": "bi-plug",
-    "OAuth2 (Allauth)": "bi-shield-lock",
+  Django: <SiDjango />,
+  Wagtail: <FiFeather />,
+  PHP: <SiPhp />,
+  MySQL: <SiMysql />,
+  PostgreSQL: <SiPostgresql />,
+  'REST APIs': <FiCode />,
+  'OAuth2 (Allauth)': <FiShield />,
 
-    // Other / DevOps
-    "Git/GitHub": "bi-git",
-    Docker: "bi-box-seam",
-    Vercel: "bi-cloud-upload",
-    Nginx: "bi-shield-check",
+  'Git/GitHub': <FiGitBranch />,
+  Docker: <FiBox />,
+  Vercel: <SiVercel />,
+  Nginx: <SiNginx />,
 };
 
 export default function Skills() {
-    const columns: SkillCard[] = [
-        {
-            title: "Frontend",
-            note: "UI and SSR basics",
-            tags: [
-                "React",
-                "Next.js",
-                "TypeScript",
-                "JavaScript",
-                "HTML/CSS",
-                "Tailwind CSS",
-                "Bootstrap",
-                "SSR",
-                "i18n",
-                "Vite",
-            ],
-            icon: "bi-braces",
-        },
-        {
-            title: "Backend",
-            note: "Servers and data",
-            tags: [
-                "Django",
-                "Wagtail",
-                "PHP",
-                "MySQL",
-                "PostgreSQL",
-                "REST APIs",
-                "OAuth2 (Allauth)",
-            ],
-            icon: "bi-hdd-network",
-        },
-        {
-            title: "Other",
-            note: "Dev tools & deploy",
-            tags: ["Git/GitHub", "Docker", "Vercel", "Nginx"],
-            icon: "bi-tools",
-        },
-    ];
+  const t = useTranslations('skills');
 
-    return (
-        <section id="skills" className="container py-5 text-center">
-            <span className="display-6 fw-bold text-center mb-2 text-gradient">Skills</span>
-            <p className="lead text-secondary text-center mb-5">
-                The technology stack and tools I use in development
-            </p>
+  const columns: SkillColumn[] = [
+    {
+      key: 'frontend',
+      title: t('columns.frontend.title'),
+      note: t('columns.frontend.note'),
+      icon: <FiTool />,
+      tags: [
+        'React',
+        'Next.js',
+        'TypeScript',
+        'JavaScript',
+        'HTML/CSS',
+        'Tailwind CSS',
+        'Bootstrap',
+        'SSR',
+        'i18n',
+        'Vite',
+      ],
+    },
+    {
+      key: 'backend',
+      title: t('columns.backend.title'),
+      note: t('columns.backend.note'),
+      icon: <FiDatabase />,
+      tags: ['Django', 'Wagtail', 'PHP', 'MySQL', 'PostgreSQL', 'REST APIs', 'OAuth2 (Allauth)'],
+    },
+    {
+      key: 'other',
+      title: t('columns.other.title'),
+      note: t('columns.other.note'),
+      icon: <FiCloud />,
+      tags: ['Git/GitHub', 'Docker', 'Vercel', 'Nginx'],
+    },
+  ];
 
-            <div className="row g-4">
-                {columns.map((col) => (
-                    <div key={col.title} className="col-12 col-md-6 col-xl-4">
-                        <div className="card glass hover-glass border-0 shadow-sm h-100 hover-accent">
-                            <div className="card-body p-4">
-                                <div className="d-flex align-items-center gap-3 mb-3">
-                                    <span className="icon-bubble-lg">
-                                        <i className={`bi ${col.icon}`} />
-                                    </span>
-                                    <h3 className="h4 mb-0">{col.title}</h3>
-                                </div>
+  return (
+    <Box as="section" id="skills" py={{ base: 12, md: 16 }}>
+      <Container maxW="6xl">
+        <VStack gap={2} textAlign="center" mb={{ base: 8, md: 10 }}>
+          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className="text-gradient">
+            {t('title')}
+          </Heading>
 
-                                {col.note && <p className="text-secondary fs-6 mb-4">{col.note}</p>}
+          <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.500" maxW="3xl">
+            {t('subtitle')}
+          </Text>
+        </VStack>
 
-                                <div className="d-flex flex-wrap gap-2">
-                                    {col.tags.map((t) => (
-                                        <span
-                                            key={t}
-                                            className="chip-lg text-bg-dark border border-secondary-subtle hover-accent"
-                                            title={t}
-                                        >
-                                            {/* иконка для тэга, если есть в мапе */}
-                                            {TAG_ICONS[t] && <i className={`bi ${TAG_ICONS[t]} me-1`} />}
-                                            {t}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </section>
-    );
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={4}>
+          {columns.map((col) => (
+            <Box
+              key={col.key}
+              borderRadius="xl"
+              overflow="hidden"
+              bg="rgba(255, 255, 255, 0.04)"
+              boxShadow="sm"
+              className="hover-glass"
+              h="full"
+            >
+              <Box px={{ base: 4, md: 5 }} py={{ base: 4, md: 5 }}>
+                <HStack gap={3} mb={3} align="center">
+                  <Box
+                    aria-hidden="true"
+                    display="grid"
+                    placeItems="center"
+                    w="44px"
+                    h="44px"
+                    borderRadius="xl"
+                    bg="rgba(255, 255, 255, 0.06)"
+                    border="1px solid"
+                    borderColor="whiteAlpha.200"
+                    flexShrink={0}
+                  >
+                    {col.icon}
+                  </Box>
+
+                  <Heading as="h3" size="md">
+                    {col.title}
+                  </Heading>
+                </HStack>
+
+                {col.note ? (
+                  <Text color="gray.500" fontSize="sm" mb={4}>
+                    {col.note}
+                  </Text>
+                ) : null}
+
+                <Wrap gap={2}>
+                  {col.tags.map((tag) => (
+                    <WrapItem key={`${col.key}-${tag}`}>
+                      <Box
+                        display="inline-flex"
+                        alignItems="center"
+                        gap={2}
+                        px={3}
+                        py={1.5}
+                        borderRadius="full"
+                        bg="whiteAlpha.100"
+                        border="1px solid"
+                        borderColor="whiteAlpha.200"
+                        color="gray.200"
+                        className="hover-accent"
+                        title={tag}
+                      >
+                        {TAG_ICON[tag] ? <Box aria-hidden="true">{TAG_ICON[tag]}</Box> : null}
+                        <Text fontSize="sm">{tag}</Text>
+                      </Box>
+                    </WrapItem>
+                  ))}
+                </Wrap>
+              </Box>
+            </Box>
+          ))}
+        </SimpleGrid>
+      </Container>
+    </Box>
+  );
 }
