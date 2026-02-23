@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Project } from "@/data/projects";
 import CardMediaSwiper from "./CardMediaSwiper";
 
@@ -15,7 +15,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 
-import { FiExternalLink } from "react-icons/fi";
+import { FiExternalLink, FiX } from "react-icons/fi";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs, Pagination, Navigation, Keyboard } from "swiper/modules";
@@ -41,15 +41,33 @@ const FALLBACK =
   );
 
 export default function ProjectsGrid({ items }: Props) {
-  const modalId = useId().replace(/:/g, "");
   const [active, setActive] = useState<Project | null>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-
-  const onOpen = (p: Project) => setActive(p);
-  const onClose = () => setActive(null);
-
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const onOpen = (p: Project) => {
+    setActive(p);
+    setActiveIndex(0);
+  };
+  const onClose = () => {
+    setActive(null);
+    setThumbsSwiper(null);
+    setMainSwiper(null);
+    setActiveIndex(0);
+  };
+
+  useEffect(() => {
+    if (!active) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
 
   const activeImages = useMemo(
     () => (active?.images?.length ? active.images : active ? [active.cover] : []),
@@ -64,8 +82,8 @@ export default function ProjectsGrid({ items }: Props) {
             const media = p.previews?.length
               ? p.previews
               : p.images?.length
-                ? p.images
-                : [p.cover];
+              ? p.images
+              : [p.cover];
 
             return (
               <Box
@@ -81,7 +99,6 @@ export default function ProjectsGrid({ items }: Props) {
                   images={media}
                   ariaLabel={`Open ${p.title}`}
                   onClick={() => onOpen(p)}
-                  modalTarget={`#${modalId}`}
                 />
 
                 <Box px={{ base: 4, md: 5 }} py={{ base: 4, md: 5 }}>
@@ -99,20 +116,20 @@ export default function ProjectsGrid({ items }: Props) {
                     </VStack>
 
                     {p.href ? (
-                    <Link
+                      <Link
                         href={p.href}
                         target="_blank"
                         rel="noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         _hover={{ textDecoration: "none" }}
-                    >
+                      >
                         <Button size="sm" variant="outline">
-                        <HStack gap={2}>
+                          <HStack gap={2}>
                             <Text>Demo</Text>
                             <FiExternalLink />
-                        </HStack>
+                          </HStack>
                         </Button>
-                    </Link>
+                      </Link>
                     ) : null}
                   </HStack>
 
@@ -147,62 +164,124 @@ export default function ProjectsGrid({ items }: Props) {
         </SimpleGrid>
       </Container>
 
-      {/* MODAL (оставляем как есть — шаг 4 будет отдельно) */}
-      <div className="modal fade" id={modalId} tabIndex={-1} aria-hidden="true" onClick={onClose}>
-        <div className="modal-dialog modal-dialog-centered modal-lg">
-          <div
-            className="modal-content bg-dark text-light border-0 shadow-lg"
+      {/* Chakra overlay modal */}
+      {active ? (
+        <Box
+          position="fixed"
+          inset={0}
+          zIndex={1000}
+          onClick={onClose}
+          bg="rgba(0,0,0,0.6)"
+          style={{ backdropFilter: "blur(8px)" }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          px={{ base: 3, md: 6 }}
+          py={{ base: 4, md: 8 }}
+        >
+          <Box
             onClick={(e) => e.stopPropagation()}
+            w="full"
+            maxW="5xl"
+            maxH="calc(100vh - 64px)"
+            overflow="hidden"
+            borderRadius="2xl"
+            bg="rgba(10, 12, 18, 0.92)"
+            border="1px solid"
+            borderColor="whiteAlpha.200"
+            boxShadow="2xl"
           >
-            <div className="modal-header border-0">
-              <div>
-                <h5 className="modal-title mb-0">{active?.title}</h5>
-                {active?.subtitle && <div className="text-white-50 small">{active.subtitle}</div>}
-              </div>
-              <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" />
-            </div>
+            {/* header */}
+            <HStack
+              justify="space-between"
+              align="flex-start"
+              px={{ base: 4, md: 5 }}
+              py={{ base: 4, md: 4 }}
+              borderBottom="1px solid"
+              borderColor="whiteAlpha.200"
+            >
+              <Box>
+                <Text fontWeight="700" fontSize="lg">
+                  {active.title}
+                </Text>
+                {active.subtitle ? (
+                  <Text color="whiteAlpha.700" fontSize="sm" mt={1}>
+                    {active.subtitle}
+                  </Text>
+                ) : null}
+              </Box>
 
-            {active && (
-              <div className="modal-body">
-                <div
-                  className="mb-3 rounded overflow-hidden d-flex align-items-center justify-content-center bg-black"
-                  style={{ height: "62vh" }}
+              <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close">
+                <FiX />
+              </Button>
+            </HStack>
+
+            {/* body (scrollable) */}
+            <Box
+              px={{ base: 4, md: 5 }}
+              py={{ base: 4, md: 5 }}
+              overflowY="auto"
+              maxH="calc(100vh - 160px)"
+            >
+              <Box
+                borderRadius="xl"
+                overflow="hidden"
+                bg="black"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                h={{ base: "52vh", md: "62vh" }}
+              >
+                <Swiper
+                  modules={[Thumbs, Pagination, Navigation, Keyboard]}
+                  onSwiper={setMainSwiper}
+                  onSlideChange={(s) => setActiveIndex(s.realIndex)}
+                  keyboard={{ enabled: true, onlyInViewport: true, pageUpDown: false }}
+                  thumbs={{ swiper: thumbsSwiper }}
+                  pagination={{ clickable: true }}
+                  navigation
+                  style={{ width: "100%", height: "100%" }}
                 >
-                  <Swiper
-                    modules={[Thumbs, Pagination, Navigation, Keyboard]}
-                    onSwiper={setMainSwiper}
-                    onSlideChange={(s) => setActiveIndex(s.realIndex)}
-                    keyboard={{ enabled: true, onlyInViewport: true, pageUpDown: false }}
-                    thumbs={{ swiper: thumbsSwiper }}
-                    pagination={{ clickable: true }}
-                    navigation
-                    className="w-100 h-100"
-                  >
-                    {activeImages.map((src) => (
-                      <SwiperSlide key={src} className="d-flex align-items-center justify-content-center">
+                  {activeImages.map((src) => (
+                    <SwiperSlide key={src}>
+                      <Box
+                        w="full"
+                        h="full"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        bg="#0b0f16"
+                      >
                         <img
                           src={src}
                           alt=""
-                          style={{ width: "100%", height: "100%", objectFit: "contain", background: "#0b0f16" }}
+                          style={{ width: "100%", height: "100%", objectFit: "contain" }}
                           onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
                         />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
+                      </Box>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </Box>
 
-                <div className="mt-2 d-flex flex-wrap gap-2">
-                  {activeImages.map((src, i) => (
-                    <button
-                      key={"t-" + src}
-                      type="button"
-                      onClick={() => mainSwiper?.slideTo(i)}
-                      aria-current={i === activeIndex ? "true" : undefined}
-                      className={`p-0 rounded overflow-hidden border ${
-                        i === activeIndex ? "border-4 border-warning" : "border-secondary"
-                      }`}
-                      style={{ width: 128, height: 72, background: "#111" }}
-                      title={`Slide ${i + 1}`}
+              {/* thumbnails */}
+              <HStack gap={2} flexWrap="wrap" mt={4}>
+                {activeImages.map((src, i) => {
+                  const isActive = i === activeIndex;
+                  return (
+                    <Box
+                    key={`t-${src}`}
+                    as="button"
+                    onClick={() => mainSwiper?.slideTo(i)}
+                    aria-current={isActive ? "true" : undefined}
+                    title={`Slide ${i + 1}`}
+                    borderRadius="lg"
+                    overflow="hidden"
+                    border="2px solid"
+                    borderColor={isActive ? "yellow.300" : "whiteAlpha.300"}
+                    w="128px"
+                    h="72px"
+                    bg="#111"
                     >
                       <img
                         src={src}
@@ -210,27 +289,45 @@ export default function ProjectsGrid({ items }: Props) {
                         style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                         onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
                       />
-                    </button>
-                  ))}
-                </div>
+                    </Box>
+                  );
+                })}
+              </HStack>
 
-                {active.details && <p className="preline mt-3 mb-0 text-white-75">{active.details}</p>}
-              </div>
-            )}
+              {active.details ? (
+                <Text mt={4} color="whiteAlpha.800" className="preline">
+                  {active.details}
+                </Text>
+              ) : null}
+            </Box>
 
-            <div className="modal-footer border-0">
-              {active?.href && (
-                <a className="btn btn-primary" href={active.href} target="_blank" rel="noreferrer">
-                  Open demo
-                </a>
-              )}
-              <button type="button" className="btn btn-outline-light" data-bs-dismiss="modal">
+            {/* footer */}
+            <HStack
+              justify="flex-end"
+              gap={3}
+              px={{ base: 4, md: 5 }}
+              py={{ base: 4, md: 4 }}
+              borderTop="1px solid"
+              borderColor="whiteAlpha.200"
+            >
+              {active.href ? (
+                <Link href={active.href} target="_blank" rel="noreferrer" _hover={{ textDecoration: "none" }}>
+                  <Button variant="solid">
+                    <HStack gap={2}>
+                      <Text>Open demo</Text>
+                      <FiExternalLink />
+                    </HStack>
+                  </Button>
+                </Link>
+              ) : null}
+
+              <Button variant="outline" onClick={onClose}>
                 Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Button>
+            </HStack>
+          </Box>
+        </Box>
+      ) : null}
     </>
   );
 }

@@ -1,65 +1,70 @@
 "use client";
 
-import { memo } from "react";
+import { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-// базовые стили
+import { Pagination, Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
 type Props = {
-    images: string[];
-    modalTarget: string;
-    className?: string;
-    onClick?: () => void;
-    ariaLabel?: string;
+  images: string[];
+  ariaLabel: string;
+  onClick: () => void;
+  className?: string;
+  modalTarget?: string; // legacy (bootstrap). теперь не нужен, но пусть будет optional чтобы не ломать вызовы
 };
 
 const FALLBACK =
-    "data:image/svg+xml;utf8," +
-    encodeURIComponent(
-        `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 675'>
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 675'>
       <defs><linearGradient id='g' x1='0' x2='1'>
         <stop stop-color='#0ea5e9' offset='0'/><stop stop-color='#a78bfa' offset='1'/>
       </linearGradient></defs>
       <rect width='100%' height='100%' fill='url(#g)'/>
+      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+            fill='white' opacity='0.85' font-family='system-ui,ui-sans-serif'
+            font-size='48'>Preview</text>
     </svg>`
-    );
+  );
 
-function CardMediaSwiper({ images, modalTarget, className, onClick, ariaLabel }: Props) {
-    const slides = (images ?? []).filter(Boolean);
-    const list = slides.length ? slides : [FALLBACK];
+export default function CardMediaSwiper({
+  images,
+  ariaLabel,
+  onClick,
+  className,
+}: Props) {
+  const slides = useMemo(() => (images?.length ? images : [FALLBACK]), [images]);
 
-    return (
-        <button
-            type="button"
-            aria-label={ariaLabel}
-            className={`project-media btn-reset ${className ?? ""}`}
-            onClick={onClick}
-            data-bs-toggle="modal"
-            data-bs-target={modalTarget}
-        >
-            <Swiper
-                className="project-swiper"
-                modules={[Autoplay, Pagination]}
-                loop
-                autoplay={{ delay: 2500, disableOnInteraction: false }}
-                pagination={{ clickable: true }}
-                style={{ width: "100%", height: "100%" }}   // <- гарантированная высота
-            >
-                {list.map((src) => (
-                    <SwiperSlide key={src}>
-                        <img
-                            src={src}
-                            alt=""
-                            className="project-media-img"
-                            onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
-                        />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </button>
-    );
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={ariaLabel}
+      className={className}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onClick();
+      }}
+      style={{ cursor: "pointer" }}
+    >
+      <Swiper
+        modules={[Pagination, Keyboard]}
+        pagination={{ clickable: true }}
+        keyboard={{ enabled: true, onlyInViewport: true, pageUpDown: false }}
+        style={{ width: "100%", height: "100%" }}
+      >
+        {slides.map((src) => (
+          <SwiperSlide key={src}>
+            <img
+              src={src}
+              alt=""
+              style={{ width: "100%", height: "220px", objectFit: "cover", display: "block" }}
+              onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
 }
-
-export default memo(CardMediaSwiper);
