@@ -1,3 +1,5 @@
+import { Box, Container, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+
 import Starfield from "./components/Starfield";
 import ProjectsGrid from "./components/ProjectsGrid";
 import Education from "./components/Education";
@@ -21,46 +23,54 @@ export default function Page() {
       <Starfield />
       <NavBar />
 
-      <header className="container py-5 text-center">
-        <div className="avatar-hero mx-auto" aria-label="Avatar">
-          <i className="bi bi-person-circle" aria-hidden="true" />
-        </div>
+      {/* HERO */}
+      <Container maxW="6xl" py={{ base: "2.5rem", md: "3.5rem" }}>
+        <Stack gap="1rem" align="center" textAlign="center">
+          <Box as="div" aria-label={i18n.home.hero.avatarLabel} className="avatar-hero" />
 
-        <span className="display-5 fw-bold mt-3 text-gradient">{i18n.home.hero.name}</span>
+          <Box as="span" className="text-gradient" fontWeight="800" fontSize={{ base: "2rem", md: "3rem" }}>
+            {i18n.home.hero.name}
+          </Box>
 
-        <p className="lead text-secondary mx-auto" style={{ maxWidth: "60ch" }}>
-          {i18n.home.hero.subtitle}
-        </p>
+          <Text maxW="60ch" opacity={0.85} fontSize={{ base: "1rem", md: "1.125rem" }}>
+            {i18n.home.hero.subtitle}
+          </Text>
+        </Stack>
 
-        <div className="row g-3 g-md-4 mt-1">
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap="1rem" mt="1.5rem">
           {stats.map((s) => (
-            <div key={s.label} className="col-12 col-md-4">
-              <div className="card glass border-0 shadow-sm h-100 hover-glass hover-accent">
-                <div className="card-body">
-                  <div className="fs-2 fw-bold">{s.value}</div>
-                  <div className="text-secondary small">{s.label}</div>
-                </div>
-              </div>
-            </div>
+            <Box key={s.label} className="glass hover-glass hover-accent" p="1.25rem" borderRadius="0.75rem">
+              <Box fontSize="2rem" fontWeight="800">
+                {s.value}
+              </Box>
+              <Box opacity={0.8}>{s.label}</Box>
+            </Box>
           ))}
-        </div>
-      </header>
+        </SimpleGrid>
+      </Container>
 
-      <section id="projects" className="container py-5">
-        <div className="container text-center">
-          <span className="display-6 fw-bold mb-2 text-gradient">{i18n.home.projects.title}</span>
-          <p className="lead text-secondary text-center mb-5">{i18n.home.projects.subtitle}</p>
-        </div>
+      <Box as="section" id="projects" py={{ base: "2.5rem", md: "3.5rem" }}>
+        <Container maxW="6xl">
+          <Stack gap="0.5rem" align="center" textAlign="center" mb="2rem">
+            <Box as="span" className="text-gradient" fontWeight="800" fontSize={{ base: "1.75rem", md: "2.25rem" }}>
+              {i18n.home.projects.title}
+            </Box>
+            <Text opacity={0.85}>{i18n.home.projects.subtitle}</Text>
+          </Stack>
 
-        <ProjectsGrid items={projects} />
-      </section>
+          <ProjectsGrid items={projects} />
+        </Container>
+      </Box>
 
       <Education />
+
       <Skills />
 
-      <footer className="container py-4 text-secondary small border-top border-secondary-subtle">
-        {i18n.home.footer.text(year)}
-      </footer>
+      <Container maxW="6xl" py="1.5rem">
+        <Box opacity={0.75} fontSize="0.9rem">
+          {i18n.home.footer.text(year)}
+        </Box>
+      </Container>
     </>
   );
 }
