@@ -1,80 +1,127 @@
 // src/app/components/Education.tsx
+'use client';
+
+import { Accordion, Box, Container, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
+import { PiGraduationCapBold } from 'react-icons/pi';
+import { FiCalendar, FiHome } from 'react-icons/fi';
+
 export default function Education() {
-    const items = [
-        {
-            title: "Bachelor of Engineering (ICT), Information and Communication Technology",
-            org: "Metropolia University of Applied Sciences",
-            year: "2025",
-            desc:
-                "A leading university of applied sciences in the Helsinki metropolitan area. Coursework and project-based labs covered software engineering, networks, cloud fundamentals, and modern web development. Emphasis on practical collaboration with industry partners and international study environment.",
-        },
-        {
-            title: "Vocational Qualification in Information and Communication Technology (Software Development)",
-            org: "Luksia — Western Uusimaa Education and Training Consortium",
-            year: "2023–2025",
-            desc:
-                "Hands-on program focused on building real products and completing internships. Core stack: React, TypeScript, and FastAPI; additional modules in version control, testing, and deployment. Completed the qualification externally via accelerated competency assessments after passing the required examinations.",
-        },
-    ];
+  const t = useTranslations('education');
 
-    return (
-        <section id="education" className="container py-5 edu-theme text-center">
-            <span className="display-6 fw-bold text-center mb-2 text-gradient">Education</span>
-            <p className="lead text-secondary text-center mb-5">
-                Academic Background and Recognized Achievements in IT
-            </p>
+  const items = [
+    {
+      key: 'metropolia',
+      title: t('items.0.title'),
+      org: t('items.0.org'),
+      year: t('items.0.year'),
+      desc: t('items.0.desc'),
+    },
+    {
+      key: 'luksia',
+      title: t('items.1.title'),
+      org: t('items.1.org'),
+      year: t('items.1.year'),
+      desc: t('items.1.desc'),
+    },
+  ];
 
-            <div className="accordion" id="edu">
-                {items.map((e, i) => (
-                    <div
-                        key={e.title}
-                        className="accordion-item border-0 mb-3 glass hover-glass shadow-sm rounded-3 overflow-hidden"
+  return (
+    <Box as="section" id="education" py={{ base: 12, md: 16 }}>
+      <Container maxW="6xl">
+        <VStack gap={2} textAlign="center" mb={{ base: 8, md: 10 }}>
+          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className="text-gradient">
+            {t('title')}
+          </Heading>
+
+          <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.500" maxW="3xl">
+            {t('subtitle')}
+          </Text>
+        </VStack>
+
+        <Accordion.Root collapsible>
+          <VStack gap={3} align="stretch">
+            {items.map((e) => (
+              <Accordion.Item
+                key={e.key}
+                value={e.key}
+                border="0"
+                borderRadius="xl"
+                overflow="hidden"
+                bg="rgba(255, 255, 255, 0.04)"
+                boxShadow="sm"
+                className="hover-glass"
+              >
+                <Accordion.ItemTrigger px={{ base: 4, md: 5 }} py={{ base: 4, md: 4 }}>
+                  <HStack gap={3} w="full" align="flex-start">
+                    <Box
+                      aria-hidden="true"
+                      display="grid"
+                      placeItems="center"
+                      w="44px"
+                      h="44px"
+                      borderRadius="xl"
+                      bg="rgba(255, 255, 255, 0.06)"
+                      border="1px solid"
+                      borderColor="whiteAlpha.200"
+                      flexShrink={0}
                     >
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed py-3 px-4 bg-transparent"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target={`#edu-${i}`}
-                            >
-                                <div className="w-100">
-                                    <div className="d-flex align-items-start gap-3">
-                                        <span className="icon-bubble-lg mt-1">
-                                            <i className="bi bi-mortarboard" />
-                                        </span>
+                      <PiGraduationCapBold />
+                    </Box>
 
-                                        <div className="flex-grow-1">
-                                            <div className="fw-semibold fs-5 lh-sm">{e.title}</div>
+                    <Box flex="1" textAlign="left">
+                      <Text fontWeight="600" fontSize={{ base: 'md', md: 'lg' }} lineHeight="short">
+                        {e.title}
+                      </Text>
 
-                                            <div className="d-flex flex-wrap align-items-center gap-3 mt-2">
-                                                <span className="text-secondary d-inline-flex align-items-center gap-2">
-                                                    <i className="bi bi-building" />
-                                                    {e.org}
-                                                </span>
+                      <HStack gap={3} mt={2} flexWrap="wrap">
+                        <HStack gap={2} color="gray.500">
+                          <Box aria-hidden="true">
+                            <FiHome />
+                          </Box>
+                          <Text fontSize="sm">{e.org}</Text>
+                        </HStack>
 
-                                                <span className="badge year-badge d-inline-flex align-items-center gap-2">
-                                                    <i className="bi bi-calendar2" />
-                                                    {e.year}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-                        </h2>
-
-                        <div
-                            id={`edu-${i}`}
-                            className="accordion-collapse collapse"
-                            data-bs-parent="#edu"
+                        <Box
+                          display="inline-flex"
+                          alignItems="center"
+                          gap={2}
+                          px={3}
+                          py={1}
+                          borderRadius="full"
+                          bg="whiteAlpha.100"
+                          border="1px solid"
+                          borderColor="whiteAlpha.200"
+                          color="gray.200"
                         >
-                            <div className="accordion-body p-4 border-top border-secondary-subtle">
-                                <p className="mb-0">{e.desc}</p>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </section>
-    );
+                          <Box aria-hidden="true">
+                            <FiCalendar />
+                          </Box>
+                          <Text fontSize="sm">{e.year}</Text>
+                        </Box>
+                      </HStack>
+                    </Box>
+
+                    <Accordion.ItemIndicator />
+                  </HStack>
+                </Accordion.ItemTrigger>
+
+                <Accordion.ItemContent
+                  px={{ base: 4, md: 5 }}
+                  pb={{ base: 4, md: 5 }}
+                  pt={0}
+                  borderTop="1px solid"
+                  borderColor="whiteAlpha.200"
+                >
+                  <Text color="gray.200" opacity={0.9}>
+                    {e.desc}
+                  </Text>
+                </Accordion.ItemContent>
+              </Accordion.Item>
+            ))}
+          </VStack>
+        </Accordion.Root>
+      </Container>
+    </Box>
+  );
 }
