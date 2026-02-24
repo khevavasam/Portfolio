@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Keyboard } from "swiper/modules";
 import "swiper/css";
@@ -56,12 +57,16 @@ export default function CardMediaSwiper({
       >
         {slides.map((src) => (
           <SwiperSlide key={src}>
-            <img
-              src={src}
-              alt=""
-              style={{ width: "100%", height: "220px", objectFit: "cover", display: "block" }}
-              onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
-            />
+            <div style={{ position: "relative", width: "100%", height: "220px" }}>
+              <Image
+                src={src}
+                alt=""
+                fill
+                style={{ objectFit: "cover", display: "block" }}
+                onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
+                unoptimized={src.startsWith("data:")}
+              />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>

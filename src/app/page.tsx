@@ -1,11 +1,10 @@
 import { Box, Container, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 
-import Starfield from "./components/Starfield";
-import ProjectsGrid from "./components/ProjectsGrid";
-import Education from "./components/Education";
-import Skills from "./components/Skills";
+import ProjectsGrid from "../components/education/ProjectsGrid";
+import Education from "../components/education/Education";
+import Skills from "../components/education/Skills";
 import { projects } from "@/data/projects";
-import NavBar from "./components/NavBar";
+import NavBar from "../components/navbar/NavBar";
 
 import { i18n } from "@/i18n";
 
@@ -20,7 +19,6 @@ export default function Page() {
 
   return (
     <>
-      <Starfield />
       <NavBar />
 
       {/* HERO */}

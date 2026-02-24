@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import type { Project } from "@/data/projects";
-import CardMediaSwiper from "./CardMediaSwiper";
+import CardMediaSwiper from "../shared/CardMediaSwiper";
 
 import {
   Box,
@@ -18,6 +19,7 @@ import {
 import { FiExternalLink, FiX } from "react-icons/fi";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { Thumbs, Pagination, Navigation, Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/thumbs";
@@ -42,8 +44,8 @@ const FALLBACK =
 
 export default function ProjectsGrid({ items }: Props) {
   const [active, setActive] = useState<Project | null>(null);
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-  const [mainSwiper, setMainSwiper] = useState<any>(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+  const [mainSwiper, setMainSwiper] = useState<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const onOpen = (p: Project) => {
@@ -66,7 +68,6 @@ export default function ProjectsGrid({ items }: Props) {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   const activeImages = useMemo(
@@ -247,16 +248,19 @@ export default function ProjectsGrid({ items }: Props) {
                       <Box
                         w="full"
                         h="full"
+                        position="relative"
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
                         bg="#0b0f16"
                       >
-                        <img
+                        <Image
                           src={src}
                           alt=""
-                          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                          fill
+                          style={{ objectFit: "contain" }}
                           onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
+                          unoptimized={src.startsWith("data:")}
                         />
                       </Box>
                     </SwiperSlide>
@@ -282,12 +286,15 @@ export default function ProjectsGrid({ items }: Props) {
                     w="128px"
                     h="72px"
                     bg="#111"
+                    position="relative"
                     >
-                      <img
+                      <Image
                         src={src}
                         alt=""
-                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                        fill
+                        style={{ objectFit: "cover", display: "block" }}
                         onError={(e) => ((e.currentTarget as HTMLImageElement).src = FALLBACK)}
+                        unoptimized={src.startsWith("data:")}
                       />
                     </Box>
                   );
