@@ -1,0 +1,12 @@
+/* Education section: heading gradient, card hover — effects only */
+
+.headingGradient {
+  background: linear-gradient(90deg, #f59e0b 0%, #f97316 35%, #ef4444 70%, #fb7185 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cardHover:hover {
+  background-color: rgba(255, 255, 255, 0.09) !important;
+}

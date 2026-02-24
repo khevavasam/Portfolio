@@ -12,6 +12,8 @@ type Props = {
   ariaLabel: string;
   onClick: () => void;
   className?: string;
+  /** When true, slide inner uses height 100% to fill aspect-ratio container */
+  fillHeight?: boolean;
   modalTarget?: string; // legacy (bootstrap). теперь не нужен, но пусть будет optional чтобы не ломать вызовы
 };
 
@@ -34,8 +36,14 @@ export default function CardMediaSwiper({
   ariaLabel,
   onClick,
   className,
+  fillHeight,
 }: Props) {
   const slides = useMemo(() => (images?.length ? images : [FALLBACK]), [images]);
+  const slideInnerStyle = {
+    position: "relative" as const,
+    width: "100%",
+    height: fillHeight ? "100%" : "220px",
+  };
 
   return (
     <div
@@ -47,7 +55,7 @@ export default function CardMediaSwiper({
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") onClick();
       }}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", height: fillHeight ? "100%" : undefined }}
     >
       <Swiper
         modules={[Pagination, Keyboard]}
@@ -57,7 +65,7 @@ export default function CardMediaSwiper({
       >
         {slides.map((src) => (
           <SwiperSlide key={src}>
-            <div style={{ position: "relative", width: "100%", height: "220px" }}>
+            <div style={slideInnerStyle}>
               <Image
                 src={src}
                 alt=""

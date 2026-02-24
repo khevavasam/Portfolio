@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import type { Project } from "@/data/projects";
-import CardMediaSwiper from "../shared/CardMediaSwiper";
+import ProjectCard from "@/components/projects/ProjectCard";
 
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   HStack,
   SimpleGrid,
   Text,
-  VStack,
   Link,
 } from "@chakra-ui/react";
 
@@ -25,6 +24,8 @@ import "swiper/css";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
+import styles from "./ProjectsGrid.module.css";
 
 type Props = { items: Project[] };
 
@@ -79,89 +80,9 @@ export default function ProjectsGrid({ items }: Props) {
     <>
       <Container maxW="6xl" px={0}>
         <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} gap={{ base: 3, md: 4 }}>
-          {items.map((p) => {
-            const media = p.previews?.length
-              ? p.previews
-              : p.images?.length
-              ? p.images
-              : [p.cover];
-
-            return (
-              <Box
-                key={p.id}
-                borderRadius="xl"
-                overflow="hidden"
-                boxShadow="sm"
-                bg="rgba(255, 255, 255, 0.04)"
-                className="project-card glass hover-glass hover-lift hover-accent"
-                h="full"
-              >
-                <CardMediaSwiper
-                  images={media}
-                  ariaLabel={`Open ${p.title}`}
-                  onClick={() => onOpen(p)}
-                />
-
-                <Box px={{ base: 4, md: 5 }} py={{ base: 4, md: 5 }}>
-                  <HStack align="flex-start" justify="space-between" gap={3}>
-                    <VStack align="start" gap={1} flex="1">
-                      <Text fontWeight="600" fontSize="md" lineHeight="short">
-                        {p.title}
-                      </Text>
-
-                      {p.subtitle ? (
-                        <Text fontSize="sm" color="gray.500">
-                          {p.subtitle}
-                        </Text>
-                      ) : null}
-                    </VStack>
-
-                    {p.href ? (
-                      <Link
-                        href={p.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        _hover={{ textDecoration: "none" }}
-                      >
-                        <Button size="sm" variant="outline">
-                          <HStack gap={2}>
-                            <Text>Demo</Text>
-                            <FiExternalLink />
-                          </HStack>
-                        </Button>
-                      </Link>
-                    ) : null}
-                  </HStack>
-
-                  <Text color="gray.500" mt={3} mb={4}>
-                    {p.summary}
-                  </Text>
-
-                  <HStack gap={2} flexWrap="wrap">
-                    {p.tags.map((t) => (
-                      <Box
-                        key={t}
-                        display="inline-flex"
-                        alignItems="center"
-                        px={3}
-                        py={1}
-                        borderRadius="full"
-                        bg="whiteAlpha.100"
-                        border="1px solid"
-                        borderColor="whiteAlpha.200"
-                        color="gray.200"
-                        className="hover-accent"
-                        title={t}
-                      >
-                        <Text fontSize="sm">{t}</Text>
-                      </Box>
-                    ))}
-                  </HStack>
-                </Box>
-              </Box>
-            );
-          })}
+          {items.map((p) => (
+            <ProjectCard key={p.id} project={p} onOpen={onOpen} />
+          ))}
         </SimpleGrid>
       </Container>
 
@@ -225,6 +146,7 @@ export default function ProjectsGrid({ items }: Props) {
               maxH="calc(100vh - 160px)"
             >
               <Box
+                className={styles.modalSwiper}
                 borderRadius="xl"
                 overflow="hidden"
                 bg="black"
@@ -302,7 +224,7 @@ export default function ProjectsGrid({ items }: Props) {
               </HStack>
 
               {active.details ? (
-                <Text mt={4} color="whiteAlpha.800" className="preline">
+                <Text mt={4} color="whiteAlpha.800" className={styles.preline}>
                   {active.details}
                 </Text>
               ) : null}

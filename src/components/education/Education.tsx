@@ -5,6 +5,7 @@ import { Accordion, Box, Container, Heading, HStack, Text, VStack } from '@chakr
 import { useTranslations } from 'next-intl';
 import { PiGraduationCapBold } from 'react-icons/pi';
 import { FiCalendar, FiHome } from 'react-icons/fi';
+import styles from './Education.module.css';
 
 export default function Education() {
   const t = useTranslations('education');
@@ -30,7 +31,7 @@ export default function Education() {
     <Box as="section" id="education" py={{ base: 12, md: 16 }}>
       <Container maxW="6xl">
         <VStack gap={2} textAlign="center" mb={{ base: 8, md: 10 }}>
-          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className="text-gradient">
+          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className={styles.headingGradient}>
             {t('title')}
           </Heading>
 
@@ -50,7 +51,7 @@ export default function Education() {
                 overflow="hidden"
                 bg="rgba(255, 255, 255, 0.04)"
                 boxShadow="sm"
-                className="hover-glass"
+                className={styles.cardHover}
               >
                 <Accordion.ItemTrigger px={{ base: 4, md: 5 }} py={{ base: 4, md: 4 }}>
                   <HStack gap={3} w="full" align="flex-start">

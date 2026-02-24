@@ -1,0 +1,18 @@
+/* Modal swiper: arrows and bullets visible on dark background — scoped to modal only */
+
+.modalSwiper :global(.swiper-button-next),
+.modalSwiper :global(.swiper-button-prev) {
+  color: #f97316;
+}
+
+.modalSwiper :global(.swiper-pagination-bullet) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.modalSwiper :global(.swiper-pagination-bullet-active) {
+  background: #f97316;
+}
+
+.preline {
+  white-space: pre-line;
+}

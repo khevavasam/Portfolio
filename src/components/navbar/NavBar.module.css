@@ -1,2 +1,19 @@
-/* src/app/components/NavBar.module.css */
-/* effects-only. keep empty for now */
+.brandGradient {
+  background: linear-gradient(90deg, #f59e0b 0%, #f97316 35%, #ef4444 70%, #fb7185 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.navLink {
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(90deg, #f59e0b, #fb7185) bottom / 0% 2px no-repeat;
+  transition: background-size 180ms ease;
+}
+
+.navLink:hover,
+.navLink:focus-visible {
+  background-size: 100% 2px;
+}

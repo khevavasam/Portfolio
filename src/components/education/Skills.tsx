@@ -26,6 +26,7 @@ import {
   FiBox,
 } from 'react-icons/fi';
 import { SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiTailwindcss, SiBootstrap, SiVite, SiDjango, SiPhp, SiMysql, SiPostgresql, SiNginx, SiVercel, SiHtml5 } from 'react-icons/si';
+import styles from './Skills.module.css';
 
 type SkillColumn = {
   key: string;
@@ -103,7 +104,7 @@ export default function Skills() {
     <Box as="section" id="skills" py={{ base: 12, md: 16 }}>
       <Container maxW="6xl">
         <VStack gap={2} textAlign="center" mb={{ base: 8, md: 10 }}>
-          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className="text-gradient">
+          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className={styles.headingGradient}>
             {t('title')}
           </Heading>
 
@@ -120,23 +121,12 @@ export default function Skills() {
               overflow="hidden"
               bg="rgba(255, 255, 255, 0.04)"
               boxShadow="sm"
-              className="hover-glass"
+              className={styles.cardHover}
               h="full"
             >
               <Box px={{ base: 4, md: 5 }} py={{ base: 4, md: 5 }}>
                 <HStack gap={3} mb={3} align="center">
-                  <Box
-                    aria-hidden="true"
-                    display="grid"
-                    placeItems="center"
-                    w="44px"
-                    h="44px"
-                    borderRadius="xl"
-                    bg="rgba(255, 255, 255, 0.06)"
-                    border="1px solid"
-                    borderColor="whiteAlpha.200"
-                    flexShrink={0}
-                  >
+                  <Box aria-hidden="true" className={styles.iconBubbleLg} flexShrink={0}>
                     {col.icon}
                   </Box>
 
@@ -154,20 +144,7 @@ export default function Skills() {
                 <Wrap gap={2}>
                   {col.tags.map((tag) => (
                     <WrapItem key={`${col.key}-${tag}`}>
-                      <Box
-                        display="inline-flex"
-                        alignItems="center"
-                        gap={2}
-                        px={3}
-                        py={1.5}
-                        borderRadius="full"
-                        bg="whiteAlpha.100"
-                        border="1px solid"
-                        borderColor="whiteAlpha.200"
-                        color="gray.200"
-                        className="hover-accent"
-                        title={tag}
-                      >
+                      <Box className={styles.chipLg} color="gray.200" title={tag}>
                         {TAG_ICON[tag] ? <Box aria-hidden="true">{TAG_ICON[tag]}</Box> : null}
                         <Text fontSize="sm">{tag}</Text>
                       </Box>
