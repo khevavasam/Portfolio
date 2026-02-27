@@ -17,9 +17,9 @@ export const en = {
       avatarLabel: 'Avatar',
     },
     stats: {
-      exp: { value: '1.5+', label: 'years of experience' },
-      projects: { value: '10+', label: 'projects' },
-      quality: { value: '100%', label: 'quality' },
+      exp: { value: '2+ years', label: 'React / Next.js development' },
+      commercial: { value: '6+ months', label: 'commercial experience (gateway.fm)' },
+      focus: { value: 'TypeScript', label: 'SSR, APIs, build/CI' },
     },
     projects: {
       title: 'Projects',

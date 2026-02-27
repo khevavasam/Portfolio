@@ -30,14 +30,27 @@ export default function ProjectCard({ project, onOpen }: Props) {
   return (
     <Box
       as="article"
-      borderRadius="xl"
+      // строгий контейнер
+      borderRadius="md"
       overflow="hidden"
-      boxShadow="sm"
-      bg="rgba(255, 255, 255, 0.04)"
-      className={styles.card}
+      bg="transparent"
+      border="1px solid"
+      borderColor="whiteAlpha.200"
       h="full"
+      // норм интеракшн без "глянца"
+      transition="transform 160ms ease, border-color 160ms ease"
+      _hover={{ transform: "translateY(-2px)", borderColor: "whiteAlpha.400" }}
+      _active={{ transform: "translateY(0px)" }}
+      className={styles.card}
     >
-      <Box className={styles.media} display="block" position="relative">
+      <Box
+        className={styles.media}
+        display="block"
+        position="relative"
+        // разделитель как в нормальных таблицах/листах
+        borderBottom="1px solid"
+        borderColor="whiteAlpha.200"
+      >
         <CardMediaSwiper
           images={media}
           ariaLabel={`Open ${project.title}`}
@@ -50,15 +63,16 @@ export default function ProjectCard({ project, onOpen }: Props) {
       <Box px={{ base: 4, md: 5 }} py={{ base: 4, md: 5 }}>
         <HStack align="flex-start" justify="space-between" gap={3}>
           <VStack align="start" gap={1} flex="1">
-            <Text fontWeight="600" fontSize="md" lineHeight="short">
+            <Text fontWeight="700" fontSize="md" lineHeight="short">
               {project.title}
             </Text>
             {project.subtitle ? (
-              <Text fontSize="sm" color="gray.500">
+              <Text fontSize="sm" color="whiteAlpha.700">
                 {project.subtitle}
               </Text>
             ) : null}
           </VStack>
+
           {project.href ? (
             <ChakraLink
               as={Link}
@@ -78,7 +92,7 @@ export default function ProjectCard({ project, onOpen }: Props) {
           ) : null}
         </HStack>
 
-        <Text color="gray.500" mt={3} mb={4}>
+        <Text color="whiteAlpha.700" mt={3} mb={4}>
           {project.summary}
         </Text>
 
@@ -91,10 +105,10 @@ export default function ProjectCard({ project, onOpen }: Props) {
               px={3}
               py={1}
               borderRadius="full"
-              bg="whiteAlpha.100"
+              bg="transparent"
               border="1px solid"
               borderColor="whiteAlpha.200"
-              color="gray.200"
+              color="whiteAlpha.800"
               className={styles.tag}
               title={t}
             >
