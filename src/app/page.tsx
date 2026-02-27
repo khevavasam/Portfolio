@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Text } from "@chakra-ui/react";
+import { Box, Container, Text } from "@chakra-ui/react";
 
 import ProjectsGrid from "@/components/education/ProjectsGrid";
 import Education from "@/components/education/Education";
@@ -9,6 +9,7 @@ import { i18n } from "@/i18n";
 
 import HeroTitle from "@/components/hero/HeroTitle";
 import HeroVerticalMarquee from "@/components/hero/HeroVerticalMarquee";
+import SectionHeader from "@/components/section/SectionHeader";
 
 import styles from "./page.module.css";
 
@@ -26,18 +27,11 @@ export default function Page() {
 
       <Box as="section" id="projects" py={{ base: "2.5rem", md: "3.5rem" }}>
         <Container maxW="6xl">
-          <Stack gap="0.5rem" align="center" textAlign="center" mb="2rem">
-            <Box
-              as="span"
-              className={styles.textGradient}
-              fontWeight="800"
-              fontSize={{ base: "1.75rem", md: "2.25rem" }}
-            >
-              {i18n.home.projects.title}
-            </Box>
-            <Text opacity={0.85}>{i18n.home.projects.subtitle}</Text>
-          </Stack>
-
+          <SectionHeader
+            title={i18n.home.projects.title}
+            subtitle={i18n.home.projects.subtitle}
+            gradientClassName={styles.textGradient}
+          />
           <ProjectsGrid items={projects} />
         </Container>
       </Box>

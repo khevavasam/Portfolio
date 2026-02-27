@@ -1,14 +1,24 @@
 // src/app/components/Education.tsx
 'use client';
 
-import { Accordion, Box, Container, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { Accordion, Box, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
+import { useColorModeValue } from '@/components/ui/color-mode';
+import SectionHeader from '@/components/section/SectionHeader';
 import { PiGraduationCapBold } from 'react-icons/pi';
 import { FiCalendar, FiHome } from 'react-icons/fi';
 import styles from './Education.module.css';
 
 export default function Education() {
   const t = useTranslations('education');
+
+  const cardBg = useColorModeValue('gray.50', 'rgba(255, 255, 255, 0.04)');
+  const triggerTitleColor = useColorModeValue('blackAlpha.900', 'whiteAlpha.900');
+  const triggerMetaColor = useColorModeValue('blackAlpha.600', 'gray.500');
+  const yearBadgeColor = useColorModeValue('blackAlpha.700', 'gray.200');
+  const contentTextColor = useColorModeValue('blackAlpha.800', 'gray.200');
+  const borderColor = useColorModeValue('blackAlpha.200', 'whiteAlpha.200');
+  const iconBoxBg = useColorModeValue('blackAlpha.50', 'rgba(255, 255, 255, 0.06)');
 
   const items = [
     {
@@ -30,15 +40,11 @@ export default function Education() {
   return (
     <Box as="section" id="education" py={{ base: 12, md: 16 }}>
       <Container maxW="6xl">
-        <VStack gap={2} textAlign="center" mb={{ base: 8, md: 10 }}>
-          <Heading as="h2" size={{ base: 'lg', md: 'xl' }} className={styles.headingGradient}>
-            {t('title')}
-          </Heading>
-
-          <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.500" maxW="3xl">
-            {t('subtitle')}
-          </Text>
-        </VStack>
+        <SectionHeader
+          title={t('title')}
+          subtitle={t('subtitle')}
+          gradientClassName={styles.headingGradient}
+        />
 
         <Accordion.Root collapsible>
           <VStack gap={3} align="stretch">
@@ -47,9 +53,9 @@ export default function Education() {
                 key={e.key}
                 value={e.key}
                 border="0"
-                borderRadius="xl"
+                borderRadius="md"
                 overflow="hidden"
-                bg="rgba(255, 255, 255, 0.04)"
+                bg={cardBg}
                 boxShadow="sm"
                 className={styles.cardHover}
               >
@@ -61,22 +67,23 @@ export default function Education() {
                       placeItems="center"
                       w="44px"
                       h="44px"
-                      borderRadius="xl"
-                      bg="rgba(255, 255, 255, 0.06)"
+                      borderRadius="md"
+                      bg={iconBoxBg}
                       border="1px solid"
-                      borderColor="whiteAlpha.200"
+                      borderColor={borderColor}
                       flexShrink={0}
+                      color={triggerTitleColor}
                     >
                       <PiGraduationCapBold />
                     </Box>
 
                     <Box flex="1" textAlign="left">
-                      <Text fontWeight="600" fontSize={{ base: 'md', md: 'lg' }} lineHeight="short">
+                      <Text fontWeight="600" fontSize={{ base: 'md', md: 'lg' }} lineHeight="short" color={triggerTitleColor}>
                         {e.title}
                       </Text>
 
                       <HStack gap={3} mt={2} flexWrap="wrap">
-                        <HStack gap={2} color="gray.500">
+                        <HStack gap={2} color={triggerMetaColor}>
                           <Box aria-hidden="true">
                             <FiHome />
                           </Box>
@@ -90,10 +97,10 @@ export default function Education() {
                           px={3}
                           py={1}
                           borderRadius="full"
-                          bg="whiteAlpha.100"
+                          bg={iconBoxBg}
                           border="1px solid"
-                          borderColor="whiteAlpha.200"
-                          color="gray.200"
+                          borderColor={borderColor}
+                          color={yearBadgeColor}
                         >
                           <Box aria-hidden="true">
                             <FiCalendar />
@@ -112,9 +119,9 @@ export default function Education() {
                   pb={{ base: 4, md: 5 }}
                   pt={0}
                   borderTop="1px solid"
-                  borderColor="whiteAlpha.200"
+                  borderColor={borderColor}
                 >
-                  <Text color="gray.200" opacity={0.9}>
+                  <Text color={contentTextColor} opacity={0.9}>
                     {e.desc}
                   </Text>
                 </Accordion.ItemContent>

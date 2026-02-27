@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FiExternalLink } from "react-icons/fi";
+import { useColorModeValue } from "@/components/ui/color-mode";
 import styles from "./ProjectCard.module.css";
 
 type Props = {
@@ -20,6 +21,13 @@ type Props = {
 };
 
 export default function ProjectCard({ project, onOpen }: Props) {
+  const borderColor = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
+  const borderColorHover = useColorModeValue("blackAlpha.400", "whiteAlpha.400");
+  const textMuted = useColorModeValue("blackAlpha.700", "whiteAlpha.700");
+  const tagBorder = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
+  const tagText = useColorModeValue("blackAlpha.800", "whiteAlpha.800");
+  const titleColor = useColorModeValue("blackAlpha.900", "whiteAlpha.900");
+
   const media =
     (project.previews?.length ?? 0) > 0
       ? project.previews!
@@ -35,11 +43,11 @@ export default function ProjectCard({ project, onOpen }: Props) {
       overflow="hidden"
       bg="transparent"
       border="1px solid"
-      borderColor="whiteAlpha.200"
+      borderColor={borderColor}
       h="full"
       // норм интеракшн без "глянца"
       transition="transform 160ms ease, border-color 160ms ease"
-      _hover={{ transform: "translateY(-2px)", borderColor: "whiteAlpha.400" }}
+      _hover={{ transform: "translateY(-2px)", borderColor: borderColorHover }}
       _active={{ transform: "translateY(0px)" }}
       className={styles.card}
     >
@@ -49,7 +57,7 @@ export default function ProjectCard({ project, onOpen }: Props) {
         position="relative"
         // разделитель как в нормальных таблицах/листах
         borderBottom="1px solid"
-        borderColor="whiteAlpha.200"
+        borderColor={borderColor}
       >
         <CardMediaSwiper
           images={media}
@@ -63,11 +71,11 @@ export default function ProjectCard({ project, onOpen }: Props) {
       <Box px={{ base: 4, md: 5 }} py={{ base: 4, md: 5 }}>
         <HStack align="flex-start" justify="space-between" gap={3}>
           <VStack align="start" gap={1} flex="1">
-            <Text fontWeight="700" fontSize="md" lineHeight="short">
+            <Text fontWeight="700" fontSize="md" lineHeight="short" color={titleColor}>
               {project.title}
             </Text>
             {project.subtitle ? (
-              <Text fontSize="sm" color="whiteAlpha.700">
+              <Text fontSize="sm" color={textMuted}>
                 {project.subtitle}
               </Text>
             ) : null}
@@ -92,7 +100,7 @@ export default function ProjectCard({ project, onOpen }: Props) {
           ) : null}
         </HStack>
 
-        <Text color="whiteAlpha.700" mt={3} mb={4}>
+        <Text color={textMuted} mt={3} mb={4}>
           {project.summary}
         </Text>
 
@@ -107,8 +115,8 @@ export default function ProjectCard({ project, onOpen }: Props) {
               borderRadius="full"
               bg="transparent"
               border="1px solid"
-              borderColor="whiteAlpha.200"
-              color="whiteAlpha.800"
+              borderColor={tagBorder}
+              color={tagText}
               className={styles.tag}
               title={t}
             >
