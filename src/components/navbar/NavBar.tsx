@@ -1,157 +1,152 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import NextLink from "next/link";
-import { Box, Button, Container, Flex, HStack, Link, VStack } from "@chakra-ui/react";
-import { FiMenu, FiX } from "react-icons/fi";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  HStack,
+  Link,
+  Tabs,
+  Menu,
+} from "@chakra-ui/react";
+import { FiMenu } from "react-icons/fi";
 
-import { ColorModeButton } from "@/components/ui/color-mode";
+import { ColorModeButton, useColorModeValue } from "@/components/ui/color-mode";
 import { i18n } from "@/i18n";
-import styles from "./NavBar.module.css";
+
+type NavItem = { value: string; label: string; href: string };
 
 export default function NavBar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("projects");
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const close = () => setOpen(false);
-
-  const NavItem = ({ href, children }: { href: string; children: React.ReactNode }) => (
-    <Link
-      href={href}
-      className={styles.navLink}
-      textDecoration="none"
-      _hover={{ textDecoration: "none" }}
-      _focusVisible={{ outline: "2px solid", outlineOffset: "2px" }}
-      onClick={close}
-    >
-      {children}
-    </Link>
+  const items: NavItem[] = useMemo(
+    () => [
+      { value: "projects", label: i18n.nav.projects, href: "#projects" },
+      { value: "education", label: i18n.nav.education, href: "#education" },
+      { value: "skills", label: i18n.nav.skills, href: "#skills" },
+    ],
+    []
   );
 
+  const goTo = (href: string, value: string) => {
+    setActive(value);
+
+    if (typeof window === "undefined") return;
+
+    const id = href.startsWith("#") ? href.slice(1) : href;
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    else window.location.hash = href;
+  };
+
+  // theme-aware styling
+  const navBg = useColorModeValue("white", "black");
+  const border = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
+  const tabSelectedBg = useColorModeValue("blackAlpha.100", "whiteAlpha.200");
+  const tabText = useColorModeValue("blackAlpha.800", "whiteAlpha.900");
+
   return (
-  <Box
-    as="nav"
-    position="sticky"
-    top={0}
-    zIndex={10}
-    bg={{ base: "white", _dark: "black" }}
-    borderBottomWidth="1px"
-    borderColor={{ base: "blackAlpha.200", _dark: "whiteAlpha.200" }}
-  >
-    <Container maxW="full" px={{ base: "1rem", md: "2rem" }} py="0.75rem">
-      <Flex align="center" justify="space-between">
-        {/* left: brand */}
-        <HStack gap="0.6rem">
-          <Box aria-hidden="true">✨</Box>
-          <Box
-            fontWeight="700"
-            fontSize={{ base: "1.05rem", md: "1.2rem" }}
-            className={styles.brandGradient}
-            lineHeight="1"
-          >
-            {i18n.nav.brand}
-          </Box>
-        </HStack>
-
-        {/* right: desktop menu */}
-        <HStack gap="0.9rem" display={{ base: "none", md: "flex" }}>
-          <Link
-            href="#projects"
-            className={styles.navLink}
-            textDecoration="none"
-            _hover={{ textDecoration: "none" }}
-            _focusVisible={{ outline: "2px solid", outlineOffset: "2px" }}
-          >
-            {i18n.nav.projects}
-          </Link>
-
-          <Link
-            href="#education"
-            className={styles.navLink}
-            textDecoration="none"
-            _hover={{ textDecoration: "none" }}
-            _focusVisible={{ outline: "2px solid", outlineOffset: "2px" }}
-          >
-            {i18n.nav.education}
-          </Link>
-
-          <Link
-            href="#skills"
-            className={styles.navLink}
-            textDecoration="none"
-            _hover={{ textDecoration: "none" }}
-            _focusVisible={{ outline: "2px solid", outlineOffset: "2px" }}
-          >
-            {i18n.nav.skills}
-          </Link>
-
-          <Link
-            as={NextLink}
-            href="/CV.pdf"
-            target="_blank"
-            rel="noreferrer"
-            _hover={{ textDecoration: "none" }}
-          >
-            <Button size="sm">{i18n.nav.cv}</Button>
-          </Link>
-
-          <ColorModeButton />
-        </HStack>
-
-        {/* right: mobile controls */}
-        <HStack gap="0.5rem" display={{ base: "flex", md: "none" }}>
-          <ColorModeButton />
-
-          <Button
-            onClick={() => setOpen((v) => !v)}
-            variant="ghost"
-            aria-label={i18n.nav.menuLabel}
-          >
-            <HStack gap="0.5rem">
-              <Box as="span" aria-hidden="true">
-                {open ? <FiX /> : <FiMenu />}
-              </Box>
-              <Box as="span">{open ? i18n.nav.close : i18n.nav.menu}</Box>
-            </HStack>
-          </Button>
-        </HStack>
-      </Flex>
-
-      {/* Mobile panel */}
-      {open && (
-        <Box mt="0.75rem" borderWidth="1px" borderRadius="lg" p="0.75rem">
-          <VStack align="stretch" gap="0.5rem">
-            <Link href="#projects" onClick={close}>
-              {i18n.nav.projects}
-            </Link>
-            <Link href="#education" onClick={close}>
-              {i18n.nav.education}
-            </Link>
-            <Link href="#skills" onClick={close}>
-              {i18n.nav.skills}
-            </Link>
+    <Box
+      as="nav"
+      position="sticky"
+      top={0}
+      zIndex={10}
+      bg={navBg}
+      borderBottomWidth="1px"
+      borderColor={border}
+    >
+      <Container maxW="full" px={{ base: "1rem", md: "2rem" }} py="0.75rem">
+        <Flex align="center" justify="center">
+          {/* Desktop center */}
+          <HStack display={{ base: "none", md: "flex" }} gap={3} align="center">
+            <Tabs.Root
+              value={active}
+              onValueChange={(d) => {
+                const next = d.value;
+                const item = items.find((x) => x.value === next);
+                if (item) goTo(item.href, item.value);
+              }}
+              variant="line"
+              size="md"
+            >
+              <Tabs.List>
+                {items.map((it) => (
+                  <Tabs.Trigger
+                    key={it.value}
+                    value={it.value}
+                    px={3}
+                    py={2}
+                    borderRadius="md"
+                    color={tabText}
+                    _selected={{ bg: tabSelectedBg }}
+                  >
+                    {it.label}
+                  </Tabs.Trigger>
+                ))}
+                <Tabs.Indicator />
+              </Tabs.List>
+            </Tabs.Root>
 
             <Link
               as={NextLink}
               href="/CV.pdf"
               target="_blank"
               rel="noreferrer"
-              onClick={close}
               _hover={{ textDecoration: "none" }}
             >
-              <Button w="100%">{i18n.nav.cv}</Button>
+              <Button size="sm" variant="outline">
+                {i18n.nav.cv}
+              </Button>
             </Link>
-          </VStack>
-        </Box>
-      )}
-    </Container>
-  </Box>
+
+            <ColorModeButton />
+          </HStack>
+
+          {/* Mobile center */}
+          <HStack display={{ base: "flex", md: "none" }} gap={2} align="center">
+            <Menu.Root>
+              <Menu.Trigger asChild>
+                <Button variant="outline" size="sm" aria-label={i18n.nav.menuLabel}>
+                  <FiMenu />
+                </Button>
+              </Menu.Trigger>
+
+              <Menu.Positioner>
+                <Menu.Content minW="220px">
+                  {items.map((it) => (
+                    <Menu.Item
+                      key={it.value}
+                      value={it.value}
+                      onClick={() => goTo(it.href, it.value)}
+                    >
+                      {it.label}
+                    </Menu.Item>
+                  ))}
+
+                  <Menu.Separator />
+
+                  <Menu.Item value="cv" asChild>
+                    <Link
+                      as={NextLink}
+                      href="/CV.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      _hover={{ textDecoration: "none" }}
+                    >
+                      {i18n.nav.cv}
+                    </Link>
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Menu.Root>
+
+            <ColorModeButton />
+          </HStack>
+        </Flex>
+      </Container>
+    </Box>
   );
 }
