@@ -5,7 +5,7 @@ import { useColorModeValue } from "@/components/ui/color-mode";
 
 type Props = {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   gradientClassName: string;
 };
 
@@ -23,9 +23,11 @@ export default function SectionHeader({ title, subtitle, gradientClassName }: Pr
       >
         {title}
       </Box>
-      <Text color={subtitleColor} fontSize={{ base: "md", md: "lg" }} maxW="3xl">
-        {subtitle}
-      </Text>
+      {subtitle ? (
+        <Text color={subtitleColor} fontSize={{ base: "md", md: "lg" }} maxW="3xl">
+          {subtitle}
+        </Text>
+      ) : null}
     </Stack>
   );
 }

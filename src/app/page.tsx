@@ -3,6 +3,7 @@ import { Box, Container, Text } from "@chakra-ui/react";
 import ProjectsGrid from "@/components/education/ProjectsGrid";
 import Education from "@/components/education/Education";
 import Skills from "@/components/education/Skills";
+import Timeline from "@/components/timeline/Timeline";
 import { projects } from "@/data/projects";
 import NavBar from "@/components/navbar/NavBar";
 import { i18n } from "@/i18n";
@@ -35,6 +36,8 @@ export default function Page() {
           <ProjectsGrid items={projects} />
         </Container>
       </Box>
+
+      <Timeline />
 
       <Education />
       <Skills />

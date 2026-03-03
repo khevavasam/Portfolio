@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/lightswind.css";
 import "./globals.css";
 import Providers from "./providers";
 
