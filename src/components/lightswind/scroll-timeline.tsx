@@ -7,8 +7,8 @@ import {
   useSpring,
   MotionValue,
 } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/lightswind/card";
+import { cn } from "../../lib/utils";
+import { Card, CardContent } from "./card";
 import { Calendar } from "lucide-react";
 
 export interface TimelineEvent {
@@ -241,20 +241,63 @@ export const ScrollTimeline = ({
             className={cn(getConnectorClasses(), "h-full absolute top-0 z-10")}
           ></div>
 
+          {/* === MODIFICATION START === */}
+          {/* Enhanced Progress Indicator with Traveling Glow */}
           {progressIndicator && (
-            <motion.div
-              className={cn(
-                "absolute top-0 z-10 left-1/2 -translate-x-1/2",
-                activeColor
-              )}
-              style={{
-                height: progressHeight,
-                width: progressLineWidth,
-                borderRadius:
-                  progressLineCap === "round" ? "9999px" : "0px",
-              }}
-            />
+            <>
+              {/* The main filled progress line */}
+              <motion.div
+                className="absolute top-0 z-10"
+                style={{
+                  height: progressHeight,
+                  width: progressLineWidth,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  borderRadius:
+                    progressLineCap === "round" ? "9999px" : "0px",
+                  background: `linear-gradient(to bottom, #22d3ee, #6366f1, #a855f7)`,
+                  // Enhanced shadow for a constant glow effect along the path
+                  boxShadow: `
+                    0 0 15px rgba(99,102,241,0.5),
+                    0 0 25px rgba(168,85,247,0.3)
+                  `,
+                }}
+              />
+              {/* The traveling glow "comet" at the head of the line */}
+              <motion.div
+                className="absolute z-20"
+                style={{
+                  top: progressHeight,
+                  left: "50%",
+                  translateX: "-50%",
+                  translateY: "-50%", // Center the comet on the line's end point
+                }}
+              >
+                <motion.div
+                  className="w-5 h-5 rounded-full" // Size of the comet core
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(168,85,247,0.8) 0%, rgba(99,102,241,0.5) 40%, rgba(34,211,238,0) 70%)",
+                    // Intense, layered glow effect for the comet
+                    boxShadow: `
+                      0 0 15px 4px rgba(168, 85, 247, 0.6),
+                      0 0 25px 8px rgba(99, 102, 241, 0.4),
+                      0 0 40px 15px rgba(34, 211, 238, 0.2)
+                    `,
+                  }}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              </motion.div>
+            </>
           )}
+          {/* === MODIFICATION END === */}
 
           <div className="relative z-20">
             {events.map((event, index) => {
@@ -294,6 +337,24 @@ export const ScrollTimeline = ({
                           ? "border-primary"
                           : "border bg-card"
                       )}
+                      animate={
+                        index <= activeIndex
+                          ? {
+                              scale: [1, 1.3, 1],
+                              boxShadow: [
+                                "0 0 0px rgba(99,102,241,0)",
+                                "0 0 12px rgba(99,102,241,0.6)",
+                                "0 0 0px rgba(99,102,241,0)",
+                              ],
+                            }
+                          : {}
+                      }
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        ease: "easeInOut",
+                      }}
                     />
                   </div>
                   <motion.div
