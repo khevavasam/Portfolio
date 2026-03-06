@@ -1,4 +1,5 @@
-import { Box, Container } from "@chakra-ui/react";
+// src/app/page.tsx
+import { Box, Container, Grid } from "@chakra-ui/react";
 
 import ProjectsGrid from "@/components/education/ProjectsGrid";
 import Education from "@/components/education/Education";
@@ -7,13 +8,13 @@ import { projects } from "@/data/projects";
 import NavBar from "@/components/navbar/NavBar";
 import { i18n } from "@/i18n";
 
-import HeroTitle from "@/components/hero/HeroTitle";
-import HeroVerticalMarquee from "@/components/hero/HeroVerticalMarquee";
 import SectionHeader from "@/components/section/SectionHeader";
 
 import { ScrollTimeline } from "@/components/lightswind/scroll-timeline";
 import { timelineEvents } from "@/components/timeline/events";
 
+import HeroProfileCard from "@/components/hero/HeroProfileCard";
+import HeroLanyard from "@/components/hero/HeroLanyard";
 import styles from "./page.module.css";
 
 export default function Page() {
@@ -23,9 +24,20 @@ export default function Page() {
     <>
       <NavBar />
 
-      <Container maxW="6xl" py={{ base: "2.5rem", md: "3.5rem" }}>
-        <HeroTitle />
-        <HeroVerticalMarquee />
+      <Container
+          maxW="6xl"
+          pt={{ base: "10rem", md: "10rem" }}  // подвинул вниз от нава
+          pb={{ base: "2.5rem", md: "3.5rem" }}
+        >
+        <Grid
+          templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+          gap={{ base: 10, md: 14 }}
+          alignItems="center"
+        >
+          <HeroProfileCard />
+
+          <HeroLanyard />
+        </Grid>
       </Container>
 
       <Box as="section" id="projects" py={{ base: "2.5rem", md: "3.5rem" }}>
