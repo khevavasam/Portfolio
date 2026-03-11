@@ -56,7 +56,7 @@ export default function Education() {
   return (
     <Box as="section" id="education" py={{ base: 12, md: 16 }}>
       <Container maxW="6xl">
-        <SectionHeader title={t("title")} subtitle={t("subtitle")} gradientClassName={styles.headingGradient} />
+        <SectionHeader title={t("title")} subtitle={t("subtitle")} />
 
         <Accordion.Root collapsible>
           <VStack gap={3} align="stretch">

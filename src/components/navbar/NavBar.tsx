@@ -23,8 +23,8 @@ export default function GooeyNavBar() {
         ]}
         theme="glass"
         scrollThreshold={110}
-        initialTop={18}
-        compactTop={12}
+        initialTop={48}
+        compactTop={28}
         animationDuration={0.6}
         onLinkClick={(link) => {
           if (link.href === "/CV.pdf") {
@@ -34,7 +34,7 @@ export default function GooeyNavBar() {
       />
 
       {/* Theme toggle: Chakra logic, Lightswind UI */}
-      <div className="fixed z-[60] right-3 top-3 md:right-5 md:top-5">
+      <div className="fixed z-[60] right-3 top-12 md:right-5 md:top-14">
         <LsButton
           size="icon"
           variant="outline"

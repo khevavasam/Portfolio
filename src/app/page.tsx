@@ -1,4 +1,3 @@
-// src/app/page.tsx
 import { Box, Container, Grid } from "@chakra-ui/react";
 
 import ProjectsGrid from "@/components/education/ProjectsGrid";
@@ -14,8 +13,7 @@ import { ScrollTimeline } from "@/components/lightswind/scroll-timeline";
 import { timelineEvents } from "@/components/timeline/events";
 
 import HeroProfileCard from "@/components/hero/HeroProfileCard";
-import HeroLanyard from "@/components/hero/HeroLanyard";
-import styles from "./page.module.css";
+import HeroContent from "@/components/hero/HeroContent";
 
 export default function Page() {
   const year = new Date().getFullYear();
@@ -25,18 +23,24 @@ export default function Page() {
       <NavBar />
 
       <Container
-          maxW="6xl"
-          pt={{ base: "10rem", md: "10rem" }}  // подвинул вниз от нава
-          pb={{ base: "2.5rem", md: "3.5rem" }}
-        >
+        maxW="6xl"
+        overflowX="hidden"
+        px={{ base: 4, md: 6 }}
+        pt={{ base: "11rem", md: "12rem" }}
+        pb={{ base: "2.5rem", md: "3.5rem" }}
+      >
         <Grid
-          templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-          gap={{ base: 10, md: 14 }}
+          templateColumns={{ base: "1fr", md: "minmax(320px, 420px) minmax(0, 1fr)" }}
           alignItems="center"
+          gap={{ base: 10, md: 14 }}
         >
-          <HeroProfileCard />
+          <Box display="flex" justifyContent={{ base: "center", md: "flex-start" }}>
+            <HeroProfileCard />
+          </Box>
 
-          <HeroLanyard />
+          <Box minW={0}>
+            <HeroContent />
+          </Box>
         </Grid>
       </Container>
 
@@ -45,7 +49,6 @@ export default function Page() {
           <SectionHeader
             title={i18n.home.projects.title}
             subtitle={i18n.home.projects.subtitle}
-            gradientClassName={styles.textGradient}
           />
           <ProjectsGrid items={projects} />
         </Container>

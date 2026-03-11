@@ -13,13 +13,19 @@ export const en = {
   home: {
     hero: {
       name: 'Khevavasam Artur',
+      headline: 'Crafting modern',
+      rotatingWords: ['interfaces', 'products', 'frontend'],
+      description:
+        'Frontend developer focused on React, Next.js, and TypeScript. I build responsive interfaces, reusable components, and clean user experiences for modern web products.',
       subtitle: 'Frontend React Developer. Modern UX, clean architecture, measurable performance.',
       avatarLabel: 'Avatar',
+      letsTalk: "Let's Talk",
+      viewProjects: 'View Projects',
     },
     stats: {
-      exp: { value: '2+ years', label: 'React / Next.js development' },
-      commercial: { value: '6+ months', label: 'commercial experience (gateway.fm)' },
-      focus: { value: 'TypeScript', label: 'SSR, APIs, build/CI' },
+      gateway: { value: '6+ months', label: 'At Gateway.fm' },
+      frontend: { value: '2+ years', label: 'Frontend development' },
+      teamwork: { value: 'Team player', label: 'Communication • reliability • support' },
     },
     projects: {
       title: 'Projects',

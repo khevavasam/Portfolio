@@ -1,0 +1,7 @@
+/* Заголовок секции: яркий оранжевый слева → красно-розовый справа */
+.titleGradient {
+  background: linear-gradient(90deg, #ff8c00 0%, #ffa500 25%, #f97316 50%, #ef4444 75%, #ff6347 90%, #fb7185 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

@@ -109,7 +109,7 @@ export default function Skills() {
   return (
     <Box as="section" id="skills" py={{ base: 12, md: 16 }}>
       <Container maxW="6xl">
-        <SectionHeader title={t("title")} subtitle={t("subtitle")} gradientClassName={styles.headingGradient} />
+        <SectionHeader title={t("title")} subtitle={t("subtitle")} />
 
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={4} mt={6}>
           {columns.map((col) => (
