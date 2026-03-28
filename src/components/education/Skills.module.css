@@ -1,0 +1,37 @@
+.headingGradient {
+  background: linear-gradient(90deg, #f59e0b 0%, #f97316 35%, #ef4444 70%, #fb7185 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.iconBubbleLg {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: radial-gradient(
+      circle at 30% 30%,
+      color-mix(in oklab, #f59e0b 15%, transparent),
+      transparent 60%
+    ),
+    rgba(255, 255, 255, 0.06);
+  border: 1px solid color-mix(in oklab, #f59e0b 40%, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.iconBubbleLg svg {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.noSelect {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}

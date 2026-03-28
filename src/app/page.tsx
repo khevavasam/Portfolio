@@ -1,91 +1,89 @@
-import Starfield from "./components/Starfield";
-import BootstrapClient from "./components/BootstrapClient";
-import ProjectsGrid from "./components/ProjectsGrid";
-import Education from "./components/Education";
-import Skills from "./components/Skills";
-import { projects } from "@/data/projects";
-import NavBar from "./components/NavBar";
+import { Box, Container, Grid } from "@chakra-ui/react";
 
+import ProjectsGrid from "@/components/education/ProjectsGrid";
+import Education from "@/components/education/Education";
+import Skills from "@/components/education/Skills";
+import { projects } from "@/data/projects";
+import NavBar from "@/components/navbar/NavBar";
+import { i18n } from "@/i18n";
+
+import SectionHeader from "@/components/section/SectionHeader";
+
+import { ScrollTimeline } from "@/components/lightswind/scroll-timeline";
+import { timelineEvents } from "@/components/timeline/events";
+
+import HeroProfileCard from "@/components/hero/HeroProfileCard";
+import HeroContent from "@/components/hero/HeroContent";
 
 export default function Page() {
   const year = new Date().getFullYear();
 
-  const stats = [
-    { value: "1.5+", label: "years of experience" },
-    { value: "10+", label: "projects" },
-    { value: "100%", label: "quality" },
-  ];
-
   return (
     <>
-      {/* интерактивный фон */}
-      <Starfield />
-      {/* инициализация Bootstrap JS */}
-      <BootstrapClient />
+      <NavBar />
 
-      <>
-        <Starfield />
-        <BootstrapClient />
-        <NavBar />
-        {}
-      </>
+      <Container
+        maxW="6xl"
+        overflowX="hidden"
+        px={{ base: 4, md: 6 }}
+        pt={{ base: "11rem", md: "12rem" }}
+        pb={{ base: "2.5rem", md: "3.5rem" }}
+      >
+        <Grid
+          templateColumns={{ base: "1fr", md: "minmax(320px, 420px) minmax(0, 1fr)" }}
+          alignItems="center"
+          gap={{ base: 10, md: 14 }}
+        >
+          <Box display="flex" justifyContent={{ base: "center", md: "flex-start" }}>
+            <HeroProfileCard />
+          </Box>
 
-      {/* HERO */}
-      <header className="container py-5 text-center">
+          <Box minW={0}>
+            <HeroContent />
+          </Box>
+        </Grid>
+      </Container>
 
-        <div className="avatar-hero mx-auto" aria-label="Avatar">
-          <i className="bi bi-person-circle" aria-hidden="true" />
-        </div>
+      <Box as="section" id="projects" py={{ base: "2.5rem", md: "3.5rem" }}>
+        <Container maxW="6xl">
+          <SectionHeader
+            title={i18n.home.projects.title}
+            subtitle={i18n.home.projects.subtitle}
+          />
+          <ProjectsGrid items={projects} />
+        </Container>
+      </Box>
 
+      <Box
+        as="section"
+        id="timeline"
+        pt={{ base: "88px", md: "96px" }}
+        pb={{ base: "2.5rem", md: "3.5rem" }}
+      >
+        <ScrollTimeline
+          events={timelineEvents}
+          title="Career Timeline"
+          subtitle="Scroll to explore my professional journey"
+          progressIndicator
+          cardAlignment="alternating"
+          connectorStyle="line"
+          revealAnimation="fade"
+        />
+      </Box>
 
-        <span className="display-5 fw-bold mt-3 text-gradient">Khevavasam Artur</span>
-        <p className="lead text-secondary mx-auto" style={{ maxWidth: "60ch" }}>
-          Frontend React Developer. Modern UX, clean architecture, measurable performance.
-        </p>
-        
+      <Box as="section" id="education">
+        <Education />
+      </Box>
 
-        {/* STATS */}
-        <div className="row g-3 g-md-4 mt-1">
-          {stats.map((s) => (
-            <div key={s.label} className="col-12 col-md-4">
-              <div className="card glass border-0 shadow-sm h-100 hover-glass hover-accent">
-                <div className="card-body">
-                  <div className="fs-2 fw-bold">{s.value}</div>
-                  <div className="text-secondary small">{s.label}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </header>
+      <Box as="section" id="skills">
+        <Skills />
+      </Box>
 
-      {/* PROJECTS */}
-      <section id="projects" className="container py-5">
-        <div className="container text-center">
-        <span className="display-6 fw-bold center mb-2 text-gradient">Projects</span>
-        <p className="lead text-secondary text-center mb-5">
-          Selected work: performance-first UI, clean DX, measurable results
-        </p>
-        </div>
-        <ProjectsGrid items={projects} />
-      </section>
-
-
-      {/* EDUCATION */}
-      <Education />
-
-      {/* SKILLS */}
-      <Skills />
-
-
-      {/* FOOTER */}
-      <footer className="container py-4 text-secondary small border-top border-secondary-subtle">
-        © {year} Khevavasam Artur - Portfolio - Created using React
-      </footer>
-
-
-
-
+      <Container maxW="6xl" py="1.5rem">
+        <Box opacity={0.75} fontSize="0.9rem">
+          {i18n.home.footer.text(year)}
+        </Box>
+      </Container>
     </>
   );
 }

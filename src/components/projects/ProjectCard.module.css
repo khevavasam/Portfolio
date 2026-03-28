@@ -1,0 +1,21 @@
+.media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.mediaInner {
+  display: block;
+  height: 100%;
+  position: relative;
+}
+
+.media :global(.swiper-pagination-bullet) {
+  background: rgba(255, 255, 255, 0.55);
+  opacity: 0.6;
+}
+
+.media :global(.swiper-pagination-bullet-active) {
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 1;
+}

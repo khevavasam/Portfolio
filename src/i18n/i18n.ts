@@ -1,0 +1,71 @@
+export const en = {
+  nav: {
+    brand: 'Khevavasam Artur',
+    projects: 'Projects',
+    education: 'Education',
+    skills: 'Skills',
+    cv: 'CV',
+    menuLabel: 'Open menu',
+    menu: 'Menu',
+    close: 'Close',
+  },
+
+  home: {
+    hero: {
+      name: 'Khevavasam Artur',
+      headline: 'Crafting modern',
+      rotatingWords: ['interfaces', 'products', 'frontend'],
+      description:
+        'Frontend developer focused on React, Next.js, and TypeScript. I build responsive interfaces, reusable components, and clean user experiences for modern web products.',
+      subtitle: 'Frontend React Developer. Modern UX, clean architecture, measurable performance.',
+      avatarLabel: 'Avatar',
+      letsTalk: "Let's Talk",
+      viewProjects: 'View Projects',
+    },
+    stats: {
+      gateway: { value: '6+ months', label: 'At Gateway.fm' },
+      frontend: { value: '2+ years', label: 'Frontend development' },
+      teamwork: { value: 'Team player', label: 'Communication • reliability • support' },
+    },
+    projects: {
+      title: 'Projects',
+      subtitle: 'Selected work: performance-first UI, clean DX, measurable results',
+    },
+    footer: {
+      text: (year: number) => `© ${year} Khevavasam Artur — Portfolio — Built with React`,
+    },
+  },
+
+  education: {
+    title: 'Education',
+    subtitle: 'Academic Background and Recognized Achievements in IT',
+    items: [
+      {
+        title: 'Bachelor of Engineering (ICT), Information and Communication Technology',
+        org: 'Metropolia University of Applied Sciences',
+        year: '2025',
+        desc:
+          'A leading university of applied sciences in the Helsinki metropolitan area. Coursework and project-based labs covered software engineering, networks, cloud fundamentals, and modern web development. Emphasis on practical collaboration with industry partners and international study environment.',
+      },
+      {
+        title: 'Vocational Qualification in Information and Communication Technology (Software Development)',
+        org: 'Luksia — Western Uusimaa Education and Training Consortium',
+        year: '2023–2025',
+        desc:
+          'Hands-on program focused on building real products and completing internships. Core stack: React, TypeScript, and FastAPI; additional modules in version control, testing, and deployment. Completed the qualification externally via accelerated competency assessments after passing the required examinations.',
+      },
+    ],
+  },
+
+  skills: {
+    title: 'Skills',
+    subtitle: 'The technology stack and tools I use in development',
+    columns: {
+      frontend: { title: 'Frontend', note: 'UI and SSR basics' },
+      backend: { title: 'Backend', note: 'Servers and data' },
+      other: { title: 'Other', note: 'Dev tools & deploy' },
+    },
+  },
+} as const;
+
+export type I18n = typeof en;
